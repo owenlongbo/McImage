@@ -31,7 +31,7 @@ buildscript {
 apply plugin: 'McImage'
 ```
 
-最后将我代码中的mctools文件夹放到项目根目录
+最后将我代码中的mctools文件夹放到项目根目录，此文件在[这里下载](https://github.com/Mobcase/McImage/tags)
 
 ```
 mctools

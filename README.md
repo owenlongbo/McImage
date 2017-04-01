@@ -33,7 +33,7 @@ Then, apply this plugin in the module build.gradle which you want to compress.
 apply plugin: 'McImage'
 ```
 
-Last, put the dir in your project root.
+Last, put the dir in your project root.Download from [here](https://github.com/Mobcase/McImage/tags)
 
 ```
 mctools
