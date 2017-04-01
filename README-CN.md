@@ -8,7 +8,7 @@ McImage是一个插件帮助你检查你res中的大图和全量压缩你的res
 - AAR中的图
 - 子Module中的图
 
-插件使用 [pngquant](https://github.com/pornel/pngquant) 算法进行压缩，每张图能节省百分之70%的大小
+插件使用[pngquant](https://github.com/pornel/pngquant)算法进行压缩，每张图能节省百分之70%的大小
 
 ### Use
 
@@ -31,7 +31,7 @@ buildscript {
 apply plugin: 'McImage'
 ```
 
-最后将我代码中的mctools文件夹放到项目根目录，此文件在[这里下载](https://github.com/Mobcase/McImage/tags)
+最后将我代码中的mctools文件夹放到项目根目录，此文件在[这里下载](https://github.com/Mobcase/McImage/releases)
 
 ```
 mctools
