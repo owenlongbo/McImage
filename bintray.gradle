@@ -6,6 +6,9 @@ def gitUrl = 'https://github.com/Mobcase/McImage.git'
 group = "com.smallsoho.mobcase"
 version = "0.0.1"
 
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
 install {
     repositories.mavenInstaller {
         pom {
@@ -23,9 +26,9 @@ install {
 
                 developers {
                     developer {
-                        id project.getProperties().get("JCENTER_ID")
-                        name project.getProperties().get("JCENTER_NAME")
-                        email project.getProperties().get("JCENTER_EMAIL")
+                        id properties.getProperty("JCENTER_ID")
+                        name properties.getProperty("JCENTER_NAME")
+                        email properties.getProperty("JCENTER_EMAIL")
                     }
                 }
 
@@ -55,8 +58,8 @@ artifacts {
 }
 
 bintray {
-    user = project.getProperties().get("bintrayUser")
-    key = project.getProperties().get("bintrayApikey")
+    user = properties.getProperty("bintrayUser")
+    key = properties.getProperty("bintrayApikey")
     configurations = ['archives']
     pkg {
         repo = "maven"
