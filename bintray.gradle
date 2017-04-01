@@ -1,0 +1,69 @@
+apply plugin: 'maven'
+apply plugin: 'com.jfrog.bintray'
+
+def siteUrl = 'https://github.com/Mobcase/McImage'
+def gitUrl = 'https://github.com/Mobcase/McImage.git'
+group = "com.smallsoho.mobcase"
+version = "0.0.1"
+
+install {
+    repositories.mavenInstaller {
+        pom {
+            project {
+                packaging 'jar'
+                name 'McImage'
+                url siteUrl
+                // Set your license
+                licenses {
+                    license {
+                        name 'Apache-2.0'
+                        url 'https://opensource.org/licenses/Apache-2.0'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id project.getProperties().get("JCENTER_ID")
+                        name project.getProperties().get("JCENTER_NAME")
+                        email project.getProperties().get("JCENTER_EMAIL")
+                    }
+                }
+
+                scm {
+                    connection gitUrl
+                    developerConnection gitUrl
+                    url siteUrl
+                }
+            }
+        }
+    }
+}
+task sourcesJar(type: Jar) {
+    from sourceSets.main.groovy.srcDirs
+    from sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
+bintray {
+    user = project.getProperties().get("bintrayUser")
+    key = project.getProperties().get("bintrayApikey")
+    configurations = ['archives']
+    pkg {
+        repo = "maven"
+        name = "mcimage"
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
+        licenses = ["Apache-2.0"]
+        publish = true
+    }
+}

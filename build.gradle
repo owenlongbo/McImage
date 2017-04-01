@@ -1,0 +1,36 @@
+apply plugin: 'groovy'
+apply from: 'bintray.gradle'
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.3.0'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.2'
+    }
+}
+
+allprojects {
+    repositories {
+        jcenter()
+    }
+}
+
+dependencies {
+    compile gradleApi()
+    compile localGroovy()
+    compile 'com.android.tools.build:gradle:2.3.0'
+}
+
+//uploadArchives {
+//    repositories {
+//        mavenDeployer {
+//            repository(url: uri("/Users/longlong/Desktop/maven"))
+//            pom.groupId = 'com.smallsoho.mobcase'
+//            pom.artifactId = 'mcimage'
+//            pom.version = '0.0.1'
+//        }
+//    }
+//}
