@@ -1,5 +1,7 @@
 # McImage
 
+[Mc插件原理解析](http://smallsoho.com/2017/04/07/McImage%E6%8F%92%E4%BB%B6%E8%A7%A3%E6%9E%90.html)
+
 McImage是一个插件帮助你检查你res中的大图和全量压缩你的res
 
 包括
