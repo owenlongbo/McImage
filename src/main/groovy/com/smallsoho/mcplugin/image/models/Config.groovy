@@ -1,10 +1,8 @@
-package com.smallsoho.mcplugin.image
+package com.smallsoho.mcplugin.image.models
 
-/**
- * Created by longlong on 2017/3/31.
- */
 class Config {
     def maxSize = 1 * 1024 * 1024
     def isCheck = true
     def isCompress = true
+    def webp = false
 }

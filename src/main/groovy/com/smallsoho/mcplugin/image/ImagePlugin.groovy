@@ -1,6 +1,10 @@
 package com.smallsoho.mcplugin.image
 
 import com.android.build.gradle.AppPlugin
+import com.smallsoho.mcplugin.image.models.Config
+import com.smallsoho.mcplugin.image.utils.CompressUtil
+import com.smallsoho.mcplugin.image.utils.SizeUtil
+import com.smallsoho.mcplugin.image.utils.WebpUtil
 import org.gradle.api.GradleException
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -9,6 +13,7 @@ class ImagePlugin implements Plugin<Project> {
 
     @Override
     void apply(Project project) {
+
         def hasApp = project.plugins.withType(AppPlugin)
         def variants = hasApp ? project.android.applicationVariants : project.android.libraryVariants
         project.extensions.create('McImageConfig', Config)
@@ -20,17 +25,18 @@ class ImagePlugin implements Plugin<Project> {
                 if (variant.productFlavors.size() == 0) {
                     imgDir = 'merged'
                 } else {
-                    imgDir = 'merged/' + variant.productFlavors[0].name
+                    imgDir = "merged/${variant.productFlavors[0].name}"
                 }
 
                 Config config = project.McImageConfig
+
                 //if don't need this plugin
                 if (!config.isCompress && !config.isCheck) {
                     return
                 }
 
                 def processResourceTask = project.tasks.findByName("process${variant.name.capitalize()}Resources")
-                def mcPicPlugin = "mcPicPlugin${variant.name.capitalize()}"
+                def mcPicPlugin = "McImage${variant.name.capitalize()}"
                 project.task(mcPicPlugin) << {
 
                     String resPath = "${project.projectDir}/build/intermediates/res/${imgDir}/"
@@ -39,30 +45,34 @@ class ImagePlugin implements Plugin<Project> {
 
                     ArrayList<String> bigImgList = new ArrayList<>()
 
-                    //load img
                     dir.eachDir() { channelDir ->
-                        channelDir.eachDir { drawDir->
+                        channelDir.eachDir { drawDir ->
                             def file = new File("${drawDir}")
                             if (file.name.contains('drawable') || file.name.contains('mipmap')) {
                                 file.eachFile { imgFile ->
-                                    if (config.isCheck && SizeUtil.checkImgSize(imgFile, config.maxSize)) {
+
+                                    if (config.isCheck && SizeUtil.isBigImage(imgFile, config.maxSize)) {
                                         bigImgList.add(file.getPath() + file.getName())
                                     }
                                     if (config.isCompress) {
                                         CompressUtil.compressImg(imgFile, project.projectDir)
                                     }
+                                    if (config.webp) {
+                                        WebpUtil.formatWebp(imgFile, project.projectDir)
+                                    }
+
                                 }
                             }
                         }
                     }
 
                     if (bigImgList.size() != 0) {
-                        println '=============Big Img List============='
+                        StringBuffer stringBuffer = new StringBuffer("You have big Img!!!! \n")
                         for (int i = 0; i < bigImgList.size(); i++) {
-                            println bigImgList.get(i)
+                            stringBuffer.append(bigImgList.get(i))
+                            stringBuffer.append("\n")
                         }
-                        println '==================END================='
-                        throw new GradleException("You have big Img!!!!")
+                        throw new GradleException(stringBuffer.toString())
                     }
 
                 }
