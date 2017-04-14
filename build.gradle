@@ -23,13 +23,13 @@ dependencies {
     compile 'com.android.tools.build:gradle:2.3.0'
 }
 
-//uploadArchives {
-//    repositories {
-//        mavenDeployer {
-//            repository(url: uri("/Users/longlong/Desktop/maven"))
-//            pom.groupId = 'com.smallsoho.mobcase'
-//            pom.artifactId = 'mcimage'
-//            pom.version = '0.0.1'
-//        }
-//    }
-//}
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: uri("/Users/longlong/Desktop/maven"))
+            pom.groupId = 'com.smallsoho.mobcase'
+            pom.artifactId = 'McImage'
+            pom.version = '0.0.2'
+        }
+    }
+}

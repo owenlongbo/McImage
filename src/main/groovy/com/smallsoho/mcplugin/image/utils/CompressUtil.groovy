@@ -14,7 +14,6 @@ class CompressUtil {
         }
 
         if (NormalUtil.isImage(imgFile)) {
-            LogUtil.log("Start Compress PNG ${imgFile.getPath()}")
             long oldSize = imgFile.length()
             NormalUtil.cmd("${toolsPath.getPath()}/pngquant --skip-if-larger --speed 11 --force --output ${imgFile.getPath()} -- ${imgFile.getPath()}")
             long newSize = imgFile.length()

@@ -17,7 +17,6 @@ class WebpUtil {
         }
 
         if (NormalUtil.isImage(imgFile)) {
-            LogUtil.log("Start Compress PNG ${imgFile.getPath()}")
             File webpFile = new File("${imgFile.getPath().substring(imgFile.getPath().length() - 5, imgFile.getPath().length() - 1)}.webp")
             NormalUtil.cmd("${toolsPath.getPath()}/cwebp ${imgFile.getPath()} -o ${webpFile.getPath()}")
             LogUtil.log(TAG, imgFile.getPath(), imgFile.length(), webpFile.length())
