@@ -4,7 +4,7 @@ import com.android.build.gradle.AppPlugin
 import com.smallsoho.mcplugin.image.models.Config
 import com.smallsoho.mcplugin.image.utils.CompressUtil
 import com.smallsoho.mcplugin.image.utils.SizeUtil
-import com.smallsoho.mcplugin.image.utils.WebpUtil
+
 import org.gradle.api.GradleException
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -56,9 +56,6 @@ class ImagePlugin implements Plugin<Project> {
                                     }
                                     if (config.isCompress) {
                                         CompressUtil.compressImg(imgFile, project.projectDir)
-                                    }
-                                    if (config.webp) {
-                                        WebpUtil.formatWebp(imgFile, project.projectDir)
                                     }
 
                                 }
