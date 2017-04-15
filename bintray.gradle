@@ -1,10 +1,10 @@
 apply plugin: 'maven'
 apply plugin: 'com.jfrog.bintray'
 
-def siteUrl = 'https://github.com/Mobcase/McImage'
-def gitUrl = 'https://github.com/Mobcase/McImage.git'
+def siteUrl = 'https://github.com/Aweme/McImage'
+def gitUrl = 'https://github.com/Aweme/McImage.git'
 group = "com.smallsoho.mobcase"
-version = "0.0.1"
+version = "0.0.2"
 
 Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
