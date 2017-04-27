@@ -2,7 +2,7 @@
 
 [中文文档](README-CN.md)
 
-[Mc插件原理解析](http://smallsoho.com/2017/04/07/McImage%E6%8F%92%E4%BB%B6%E8%A7%A3%E6%9E%90.html)
+[Mc插件原理解析](http://smallsoho.com/android/2017/04/07/McImage%E6%8F%92%E4%BB%B6%E8%A7%A3%E6%9E%90/)
 
 McImage is an Android Gradle Plugin.It can help you check the big image in your res and compress your all image in your res.
 
