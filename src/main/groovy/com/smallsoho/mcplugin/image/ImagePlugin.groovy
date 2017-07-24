@@ -71,7 +71,7 @@ class ImagePlugin implements Plugin<Project> {
                         }
                     }
 
-                    convertWebp(resPath)
+                    convertWebp()
 
                     if (bigImgList.size() != 0) {
                         StringBuffer stringBuffer = new StringBuffer("You have big Img!!!! \n")
@@ -115,7 +115,8 @@ class ImagePlugin implements Plugin<Project> {
         return config.isJPGConvert
     }
 
-    def convertWebp(String resPath) {
+    def convertWebp() {
+        String resPath = "${project.projectDir}/src/main/res/"
         def resDir = new File("${resPath}")
         resDir.eachDirMatch(~/drawable[a-z0-9-]*/) { dir ->
             FileTree tree = project.fileTree(dir: dir)
