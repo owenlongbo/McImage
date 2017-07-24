@@ -13,6 +13,6 @@ class Utils {
 
 
     def static int getMinSdkVersion(Project project) {
-        return getAndroidExtension(project).defaultConfig.minSdkVersion;
+        return getAndroidExtension(project).defaultConfig.minSdkVersion.apiLevel;
     }
 }
