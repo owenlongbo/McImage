@@ -43,6 +43,8 @@ class ImagePlugin implements Plugin<Project> {
                     return
                 }
 
+                convertWebp()
+
                 def processResourceTask = project.tasks.findByName("process${variant.name.capitalize()}Resources")
                 def mcPicPlugin = "McImage${variant.name.capitalize()}"
                 project.task(mcPicPlugin) << {
@@ -70,8 +72,6 @@ class ImagePlugin implements Plugin<Project> {
                             }
                         }
                     }
-
-                    convertWebp()
 
                     if (bigImgList.size() != 0) {
                         StringBuffer stringBuffer = new StringBuffer("You have big Img!!!! \n")
@@ -130,7 +130,7 @@ class ImagePlugin implements Plugin<Project> {
                     }
                 }
                 if (shouldConvert) {
-                    WebpUtils.formatWebp(imgFile, project.projectDir, webpFactorQuality)
+                    WebpUtils.formatWebp(file, project.projectDir, config.webpQuality)
                 }
             }
         }
