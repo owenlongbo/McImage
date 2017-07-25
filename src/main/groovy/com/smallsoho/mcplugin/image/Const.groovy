@@ -8,5 +8,5 @@ class Const {
     def static final String JPG = ".jpg"
     def static final String JPEG = ".jpeg"
     def static final String PNG = ".png"
-    def static final String DOT_9PNG = ".9"
+    def static final String DOT_9PNG = ".9.png"
 }
