@@ -27,9 +27,12 @@ class WebpUtils {
         }
 
         if (NormalUtil.isImage(imgFile)) {
-            File webpFile = new File("${imgFile.getPath().substring(imgFile.getPath().length() - 5, imgFile.getPath().length() - 1)}.webp")
-            NormalUtil.cmd("${toolsPath.getPath()}/cwebp -q ${quality}  ${imgFile.getPath()} o ${webpFile.getPath()}")
+            File webpFile = new File("${imgFile.getPath().substring(0, imgFile.getPath().indexOf("."))}.webp")
+            NormalUtil.cmd("${toolsPath.getPath()}/cwebp -q ${quality}  ${imgFile.getPath()} -o ${webpFile.getPath()}")
             LogUtil.log(TAG, imgFile.getPath(), imgFile.length(), webpFile.length())
+            if (imgFile.exists()) {
+                imgFile.delete()
+            }
         }
 
     }

@@ -4,6 +4,7 @@ import com.android.build.gradle.AppPlugin
 import com.smallsoho.mcplugin.image.models.Config
 import com.smallsoho.mcplugin.image.utils.CompressUtil
 import com.smallsoho.mcplugin.image.utils.ImageUtils
+import com.smallsoho.mcplugin.image.utils.LogUtil
 import com.smallsoho.mcplugin.image.utils.SizeUtil
 import com.smallsoho.mcplugin.image.utils.Utils
 import com.smallsoho.mcplugin.image.utils.WebpUtils
@@ -123,12 +124,14 @@ class ImagePlugin implements Plugin<Project> {
             tree.filter { File file ->
                 return (isJPGWebpConvertSupported() && (file.name.endsWith(Const.JPG) || file.name.endsWith(Const.JPEG))) || (isPNGWebpConvertSupported() && file.name.endsWith(Const.PNG) && !file.name.endsWith(Const.DOT_9PNG))
             }.each { File file ->
+
                 def shouldConvert = true
                 if (file.name.endsWith(Const.PNG)) {
                     if (!isTransparencyPNGWebpConvertSupported()) {
                         shouldConvert = !ImageUtils.isAlphaPNG(file)
                     }
                 }
+
                 if (shouldConvert) {
                     WebpUtils.formatWebp(file, project.projectDir, config.webpQuality)
                 }

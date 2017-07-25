@@ -5,7 +5,7 @@ package com.smallsoho.mcplugin.image.utils
  */
 class NormalUtil {
     def static isImage(File file) {
-        return (file.getName().endsWith('.jpg') || file.getName().endsWith('.png')) && !file.getName().contains('.9')
+        return (file.getName().endsWith('.jpg') || file.getName().endsWith('.png') || file.getName().endsWith(".jpeg")) && !file.getName().contains('.9')
     }
 
     def static getToolsDir(File rootDir) {
