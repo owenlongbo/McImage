@@ -29,13 +29,23 @@ class ImagePlugin implements Plugin<Project> {
         config = project.McImageConfig
 
         def taskNames = project.gradle.startParameter.taskNames
-        def isDebugTask = false;
+        def isDebugTask = false
+        def isContainAssembleTask = false
         for (int index = 0; index < taskNames.size(); ++index) {
             def taskName = taskNames[index]
+            if (taskName.contains("assemble") || taskName.contains("resguard")) {
+                isContainAssembleTask = true
+                break;
+            }
             if (taskName.endsWith("Debug") && taskName.contains("Debug")) {
                 isDebugTask = true
                 break;
             }
+            println("taskName:" + taskName)
+        }
+
+        if (!isContainAssembleTask) {
+            return
         }
 
         println("config.enableWhenDebug:" + config.enableWhenDebug + "   isDebugTask:" + isDebugTask)
