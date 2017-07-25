@@ -29,9 +29,15 @@ class WebpUtils {
         if (NormalUtil.isImage(imgFile)) {
             File webpFile = new File("${imgFile.getPath().substring(0, imgFile.getPath().indexOf("."))}.webp")
             NormalUtil.cmd("${toolsPath.getPath()}/cwebp -q ${quality}  ${imgFile.getPath()} -o ${webpFile.getPath()}")
-            LogUtil.log(TAG, imgFile.getPath(), imgFile.length(), webpFile.length())
-            if (imgFile.exists()) {
-                imgFile.delete()
+            if (webpFile.length() < imgFile.length()) {
+                LogUtil.log(TAG, imgFile.getPath(), imgFile.length(), webpFile.length())
+                if (imgFile.exists()) {
+                    imgFile.delete()
+                }
+            } else {//如果webp的大的话就抛弃
+                if (webpFile.exists()) {
+                    webpFile.delete()
+                }
             }
         }
 

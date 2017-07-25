@@ -26,6 +26,22 @@ class ImagePlugin implements Plugin<Project> {
         def hasApp = project.plugins.withType(AppPlugin)
         def variants = hasApp ? project.android.applicationVariants : project.android.libraryVariants
         project.extensions.create('McImageConfig', Config)
+        config = project.McImageConfig
+
+        def taskNames = project.gradle.startParameter.taskNames
+        def isDebugTask = false;
+        for (int index = 0; index < taskNames.size(); ++index) {
+            def taskName = taskNames[index]
+            if (taskName.endsWith("Debug") && taskName.contains("Debug")) {
+                isDebugTask = true
+                break;
+            }
+        }
+
+        println("config.enableWhenDebug:" + config.enableWhenDebug + "   isDebugTask:" + isDebugTask)
+        if (isDebugTask && !config.enableWhenDebug) {
+            return
+        }
 
         project.afterEvaluate {
             variants.all { variant ->
@@ -36,8 +52,6 @@ class ImagePlugin implements Plugin<Project> {
                 } else {
                     imgDir = "merged/${variant.productFlavors[0].name}"
                 }
-
-                config = project.McImageConfig
 
                 //if don't need this plugin
                 if (!config.isCompress && !config.isCheck) {
