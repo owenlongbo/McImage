@@ -3,20 +3,55 @@ package com.smallsoho.mcplugin.image
 import com.android.build.gradle.AppPlugin
 import com.smallsoho.mcplugin.image.models.Config
 import com.smallsoho.mcplugin.image.utils.CompressUtil
+import com.smallsoho.mcplugin.image.utils.ImageUtils
+import com.smallsoho.mcplugin.image.utils.LogUtil
 import com.smallsoho.mcplugin.image.utils.SizeUtil
-
+import com.smallsoho.mcplugin.image.utils.Utils
+import com.smallsoho.mcplugin.image.utils.WebpUtils
 import org.gradle.api.GradleException
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.file.FileTree
+
+import javax.imageio.ImageIO
 
 class ImagePlugin implements Plugin<Project> {
 
+    Project project;
+    Config config;
+
     @Override
     void apply(Project project) {
-
+        this.project = project;
         def hasApp = project.plugins.withType(AppPlugin)
         def variants = hasApp ? project.android.applicationVariants : project.android.libraryVariants
         project.extensions.create('McImageConfig', Config)
+        config = project.McImageConfig
+
+        def taskNames = project.gradle.startParameter.taskNames
+        def isDebugTask = false
+        def isContainAssembleTask = false
+        for (int index = 0; index < taskNames.size(); ++index) {
+            def taskName = taskNames[index]
+            if (taskName.contains("assemble") || taskName.contains("resguard")) {
+                isContainAssembleTask = true
+                break;
+            }
+            if (taskName.endsWith("Debug") && taskName.contains("Debug")) {
+                isDebugTask = true
+                break;
+            }
+            println("taskName:" + taskName)
+        }
+
+        if (!isContainAssembleTask) {
+            return
+        }
+
+        println("config.enableWhenDebug:" + config.enableWhenDebug + "   isDebugTask:" + isDebugTask)
+        if (isDebugTask && !config.enableWhenDebug) {
+            return
+        }
 
         project.afterEvaluate {
             variants.all { variant ->
@@ -28,12 +63,12 @@ class ImagePlugin implements Plugin<Project> {
                     imgDir = "merged/${variant.productFlavors[0].name}"
                 }
 
-                Config config = project.McImageConfig
-
                 //if don't need this plugin
                 if (!config.isCompress && !config.isCheck) {
                     return
                 }
+
+                convertWebp()
 
                 def processResourceTask = project.tasks.findByName("process${variant.name.capitalize()}Resources")
                 def mcPicPlugin = "McImage${variant.name.capitalize()}"
@@ -77,6 +112,53 @@ class ImagePlugin implements Plugin<Project> {
                 //inject plugin
                 project.tasks.findByName(mcPicPlugin).dependsOn processResourceTask.taskDependencies.getDependencies(processResourceTask)
                 processResourceTask.dependsOn project.tasks.findByName(mcPicPlugin)
+            }
+        }
+    }
+
+    boolean isWebpConvertEnable() {
+        return config.isWebpConvert
+    }
+
+    boolean isPNGWebpConvertSupported() {
+        if (!isWebpConvertEnable()) {
+            return false
+        }
+
+        return WebpUtils.isPNGConvertSupported(project);
+    }
+
+    boolean isTransparencyPNGWebpConvertSupported() {
+        if (!isWebpConvertEnable()) {
+            return false
+        }
+
+        return WebpUtils.isTransparentPNGSupported(project);
+    }
+
+    boolean isJPGWebpConvertSupported() {
+        return config.isJPGConvert
+    }
+
+    def convertWebp() {
+        String resPath = "${project.projectDir}/src/main/res/"
+        def resDir = new File("${resPath}")
+        resDir.eachDirMatch(~/drawable[a-z0-9-]*/) { dir ->
+            FileTree tree = project.fileTree(dir: dir)
+            tree.filter { File file ->
+                return (isJPGWebpConvertSupported() && (file.name.endsWith(Const.JPG) || file.name.endsWith(Const.JPEG))) || (isPNGWebpConvertSupported() && file.name.endsWith(Const.PNG) && !file.name.endsWith(Const.DOT_9PNG))
+            }.each { File file ->
+
+                def shouldConvert = true
+                if (file.name.endsWith(Const.PNG)) {
+                    if (!isTransparencyPNGWebpConvertSupported()) {
+                        shouldConvert = !ImageUtils.isAlphaPNG(file)
+                    }
+                }
+
+                if (shouldConvert) {
+                    WebpUtils.formatWebp(file, project.projectDir, config.webpQuality)
+                }
             }
         }
     }
