@@ -1,0 +1,45 @@
+apply plugin: 'maven'
+apply plugin: 'signing'
+
+def DEBUG = false
+def VERSION = '0.0.3-SNAPSHOT'
+def GROUP = 'com.smallsoho.mobcase'
+def ARTIFACT = 'McImage'
+
+Properties properties = new Properties()
+if (project.rootProject.file('local.properties').exists()) {
+    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+}
+
+static def isSnapshot(def version) {
+    return version.endsWith("SNAPSHOT")
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            if (DEBUG) {
+                repository(url: uri("${buildDir}/libs"))
+            } else {
+                if (isSnapshot(VERSION)) {
+                    repository(url: uri(properties.getProperty('MAVEN_SNAPSHOT_REPO'))) {
+                        authentication(
+                                userName: properties.getProperty('MAVEN_USER_NAME'),
+                                password: properties.getProperty('MAVEN_PASSWORD')
+                        )
+                    }
+                } else {
+                    repository(url: uri(properties.getProperty('MAVEN_RELEASE_REPO'))) {
+                        authentication(
+                                userName: properties.getProperty('MAVEN_USER_NAME'),
+                                password: properties.getProperty('MAVEN_PASSWORD')
+                        )
+                    }
+                }
+            }
+            pom.groupId = GROUP
+            pom.artifactId = ARTIFACT
+            pom.version = VERSION
+        }
+    }
+}

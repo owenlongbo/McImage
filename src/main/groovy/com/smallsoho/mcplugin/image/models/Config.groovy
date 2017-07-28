@@ -7,5 +7,5 @@ class Config {
     def isWebpConvert = true
     def webpQuality = 75
     def isJPGConvert = true
-    def enableWhenDebug = false
+    def enableWhenDebug = true
 }

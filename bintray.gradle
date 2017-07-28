@@ -4,7 +4,7 @@ apply plugin: 'com.jfrog.bintray'
 def siteUrl = 'https://github.com/Aweme/McImage'
 def gitUrl = 'https://github.com/Aweme/McImage.git'
 group = "com.smallsoho.mobcase"
-version = "0.0.4.9.2"
+version = "0.0.3"
 
 Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
@@ -63,7 +63,7 @@ bintray {
     configurations = ['archives']
     pkg {
         repo = "maven"
-        name = "mcimage"
+        name = "McImage"
         websiteUrl = siteUrl
         vcsUrl = gitUrl
         licenses = ["Apache-2.0"]

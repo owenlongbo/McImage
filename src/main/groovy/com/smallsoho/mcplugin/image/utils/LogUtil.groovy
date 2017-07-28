@@ -2,15 +2,15 @@ package com.smallsoho.mcplugin.image.utils
 
 class LogUtil {
 
-    def static log(def stage, def filePath, def oldInfo, def newInfo) {
+    static void log(def stage, def filePath, def oldInfo, def newInfo) {
         println "[${stage}][${filePath}][oldInfo: ${oldInfo}][newInfo: ${newInfo}]"
     }
 
-    def static log(def stage, def info, def result) {
+    static void log(def stage, def info, def result) {
         println "[${stage}][Info: ${info}][Result: ${result}]"
     }
 
-    def static log(def str) {
+    static void log(def str) {
         println str
     }
 
