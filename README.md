@@ -14,6 +14,11 @@ Include
 
 The Plugin use [pngquant](https://github.com/pornel/pngquant) to compress image,it can save 70% size.
 
+### Update Log
+
+- 0.0.3 : Add webp ! It will auto convert your png (without alpha in min API < 18 and not work in min API < 14) and jpg to webp if it will become more small.
+- 0.0.2 : Improve the log.
+
 ### Use
 
 First,change your root build.gradle.
@@ -24,7 +29,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.smallsoho.mobcase:McImage:0.0.2'
+        classpath 'com.smallsoho.mobcase:McImage:0.0.3'
     }
 }
 ```
@@ -52,6 +57,10 @@ McImageConfig {
   isCheck true //default true
   isCompress true //default true
   maxSize 1*1024*1024 //default 1MB 
+  isWebpConvert true //default true
+  webpQuality 75 //default 75
+  isJPGConvert true //default true
+  enableWhenDebug true //default true
 }
 ```
 

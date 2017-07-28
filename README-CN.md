@@ -22,7 +22,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.smallsoho.mobcase:McImage:0.0.2'
+        classpath 'com.smallsoho.mobcase:McImage:0.0.3'
     }
 }
 ```
@@ -43,13 +43,17 @@ PS：插件默认执行平台是MAC OSX，若果你想要在别的平台上使�
 
 ### Config
 
-你可以在build.gradle中配置插件的几个属性，包括是否检查，是否压缩，和检查的最大大小
+你可以在build.gradle中配置插件的几个属性
 
 ```groovy
 McImageConfig {
-  isCheck true //default true
-  isCompress true //default true
-  maxSize 1*1024*1024 //default 1MB 
+  isCheck true //default true   是否进行图片大小超标的检查
+  isCompress true //default true  是否进行图片压缩
+  maxSize 1*1024*1024 //default 1MB  图片大小超标的标准大小
+  isWebpConvert true //default true 是否进行对图片的webp处理
+  webpQuality 75 //default 75 对图片进行webp处理的质量
+  isJPGConvert true //default true 是否对jpg进行webp处理
+  enableWhenDebug true //default true 是否在debug的时候启用插件
 }
 ```
 
