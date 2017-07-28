@@ -16,6 +16,8 @@ The Plugin use [pngquant](https://github.com/pornel/pngquant) to compress image,
 
 ### Update Log
 
+> The user of v0.0.2 need update your mctools dir.
+
 - 0.0.3 : Add webp ! It will auto convert your png (without alpha in min API < 18 and not work in min API < 14) and jpg to webp if it will become more small.
 - 0.0.2 : Improve the log.
 

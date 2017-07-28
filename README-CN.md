@@ -12,6 +12,13 @@ McImage是一个插件帮助你检查你res中的大图和全量压缩你的res
 
 插件使用[pngquant](https://github.com/pornel/pngquant)算法进行压缩，每张图能节省百分之70%的大小
 
+### Update Log
+
+> The user of v0.0.2 need update your mctools dir.
+
+- 0.0.3 : 添加了对webp的支持。会在压缩之后自动将你符合规则的图片转换为webp格式，并且会比对大小，如果转换之后更大则舍弃转换，并且插件对API 14 和API 18的webp问题进行了处理，具体问题请google查询。
+- 0.0.2 : 完善了日志的输出
+
 ### Use
 
 首先，修改你根目录的build.gradle.
