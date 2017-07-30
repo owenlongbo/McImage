@@ -16,6 +16,10 @@ class ImageUtil {
         ) && !file.getName().endsWith(Const.DOT_9PNG)
     }
 
+    static boolean isJPG(File file) {
+        return file.getName().endsWith(Const.JPG) || file.getName().endsWith(Const.JPEG)
+    }
+
     static boolean isAlphaPNG(File filePath) {
         if (filePath.exists()) {
             try {
