@@ -2,7 +2,10 @@ package com.smallsoho.mcplugin.image.webp
 
 import com.smallsoho.mcplugin.image.Const
 import com.smallsoho.mcplugin.image.models.Config
-import com.smallsoho.mcplugin.image.utils.*
+import com.smallsoho.mcplugin.image.utils.AndroidUtil
+import com.smallsoho.mcplugin.image.utils.ImageUtil
+import com.smallsoho.mcplugin.image.utils.LogUtil
+import com.smallsoho.mcplugin.image.utils.Tools
 import org.gradle.api.Project
 
 class WebpUtils {
@@ -25,7 +28,7 @@ class WebpUtils {
 
         if (ImageUtil.isImage(imgFile)) {
             File webpFile = new File("${imgFile.getPath().substring(0, imgFile.getPath().indexOf("."))}.webp")
-            Tools.cmd("${FileUtil.instance.getToolsDirPath()}/cwebp -q ${quality}  ${imgFile.getPath()} -o ${webpFile.getPath()}")
+            Tools.cmd("cwebp -q ${quality}  ${imgFile.getPath()} -o ${webpFile.getPath()}")
             if (webpFile.length() < imgFile.length()) {
                 LogUtil.log(TAG, imgFile.getPath(), imgFile.length(), webpFile.length())
                 if (imgFile.exists()) {
