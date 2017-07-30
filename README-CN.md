@@ -2,7 +2,7 @@
 
 [Mc插件原理解析](http://smallsoho.com/android/2017/04/07/McImage%E6%8F%92%E4%BB%B6%E8%A7%A3%E6%9E%90/)
 
-McImage是一个插件帮助你检查你res中的大图和全量压缩你的res
+McImage是一个插件帮助你检查你res中的大图和全量压缩你的res并对所有图选择性转换成webp（最大化收益情况）
 
 包括
 
