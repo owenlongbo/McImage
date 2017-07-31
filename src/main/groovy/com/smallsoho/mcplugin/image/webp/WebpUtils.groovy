@@ -24,11 +24,11 @@ class WebpUtils {
 
     def static final TAG = 'Webp'
 
-    def static formatWebp(File imgFile, int quality) {
+    def static formatWebp(File imgFile) {
 
         if (ImageUtil.isImage(imgFile)) {
             File webpFile = new File("${imgFile.getPath().substring(0, imgFile.getPath().indexOf("."))}.webp")
-            Tools.cmd("cwebp -q ${quality}  ${imgFile.getPath()} -o ${webpFile.getPath()}")
+            Tools.cmd("cwebp ${imgFile.getPath()} -o ${webpFile.getPath()} -quiet")
             if (webpFile.length() < imgFile.length()) {
                 LogUtil.log(TAG, imgFile.getPath(), imgFile.length(), webpFile.length())
                 if (imgFile.exists()) {
@@ -52,16 +52,16 @@ class WebpUtils {
                 if (isPNGConvertSupported(project)) {
                     if (ImageUtil.isAlphaPNG(imgFile)) {
                         if (isTransparentPNGSupported(project)) {
-                            formatWebp(imgFile, config.webpQuality)
+                            formatWebp(imgFile)
                         }
                     } else {
-                        formatWebp(imgFile, config.webpQuality)
+                        formatWebp(imgFile)
                     }
                 }
             //jpg
             } else if (imgFile.getName().endsWith(Const.JPG) || imgFile.getName().endsWith(Const.JPEG)) {
                 if (config.isJPGConvert) {
-                    formatWebp(imgFile, config.webpQuality)
+                    formatWebp(imgFile)
                 }
             //other
             } else {

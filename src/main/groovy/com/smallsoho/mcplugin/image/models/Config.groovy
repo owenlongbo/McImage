@@ -5,7 +5,6 @@ class Config {
     def isCheck = true
     def isCompress = true
     def isWebpConvert = true
-    def webpQuality = 75
     def isJPGConvert = true
     def enableWhenDebug = true
 }
