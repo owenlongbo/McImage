@@ -76,7 +76,9 @@ McImageConfig {
 ### Thanks
 
 [pngquant](https://github.com/pornel/pngquant)
+
 [guetzli](https://github.com/google/guetzli)
+
 [cwebp](https://developers.google.com/speed/webp/)
 
 License
