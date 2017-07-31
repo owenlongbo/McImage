@@ -21,13 +21,22 @@ class Tools {
                 LogUtil.log("McImage Not support this system")
                 return
         }
-        def proc = cmd.execute()
-        proc.waitFor()
+
+        outputMessage(cmd)
     }
 
     def static LinuxInit() {
-        def proc = "chmod 755 -R ${FileUtil.instance.getToolsDirPath() + "/linux/"}".execute()
+        outputMessage("chmod 755 -R ${FileUtil.instance.getToolsDirPath() + "/linux/"}")
+    }
+
+    def static outputMessage(def cmd) {
+        def proc = cmd.execute()
+        def out = new StringBuilder(), err = new StringBuilder()
+        proc.consumeProcessOutput(out, err)
         proc.waitFor()
+        if (out.toString() != "" || err.toString() != "") {
+            println "out> $out err> $err"
+        }
     }
 
 }
