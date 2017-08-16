@@ -71,44 +71,47 @@ class ImagePlugin implements Plugin<Project> {
 
                 def processResourceTask = project.tasks.findByName("process${variant.name.capitalize()}Resources")
                 def mcPicPlugin = "McImage${variant.name.capitalize()}"
-                project.task(mcPicPlugin) << {
+                project.task(mcPicPlugin) {
+                    doLast {
+                        println 'Sample task'
 
-                    String resPath = "${project.projectDir}/build/intermediates/res/${imgDir}/"
 
-                    def dir = new File("${resPath}")
+                        String resPath = "${project.projectDir}/build/intermediates/res/${imgDir}/"
 
-                    ArrayList<String> bigImgList = new ArrayList<>()
+                        def dir = new File("${resPath}")
 
-                    dir.eachDir() { channelDir ->
-                        channelDir.eachDir { drawDir ->
-                            def file = new File("${drawDir}")
-                            if (file.name.contains('drawable') || file.name.contains('mipmap')) {
-                                file.eachFile { imgFile ->
+                        ArrayList<String> bigImgList = new ArrayList<>()
 
-                                    if (mConfig.isCheck && ImageUtil.isBigImage(imgFile, mConfig.maxSize)) {
-                                        bigImgList.add(file.getPath() + file.getName())
+                        dir.eachDir() { channelDir ->
+                            channelDir.eachDir { drawDir ->
+                                def file = new File("${drawDir}")
+                                if (file.name.contains('drawable') || file.name.contains('mipmap')) {
+                                    file.eachFile { imgFile ->
+
+                                        if (mConfig.isCheck && ImageUtil.isBigImage(imgFile, mConfig.maxSize)) {
+                                            bigImgList.add(file.getPath() + file.getName())
+                                        }
+                                        if (mConfig.isCompress) {
+                                            CompressUtil.compressImg(imgFile)
+                                        }
+                                        if (mConfig.isWebpConvert) {
+                                            WebpUtils.securityFormatWebp(imgFile, mConfig, mProject)
+                                        }
+
                                     }
-                                    if (mConfig.isCompress) {
-                                        CompressUtil.compressImg(imgFile)
-                                    }
-                                    if (mConfig.isWebpConvert) {
-                                        WebpUtils.securityFormatWebp(imgFile, mConfig, mProject)
-                                    }
-
                                 }
                             }
                         }
-                    }
 
-                    if (bigImgList.size() != 0) {
-                        StringBuffer stringBuffer = new StringBuffer("You have big Img!!!! \n")
-                        for (int i = 0; i < bigImgList.size(); i++) {
-                            stringBuffer.append(bigImgList.get(i))
-                            stringBuffer.append("\n")
+                        if (bigImgList.size() != 0) {
+                            StringBuffer stringBuffer = new StringBuffer("You have big Img!!!! \n")
+                            for (int i = 0; i < bigImgList.size(); i++) {
+                                stringBuffer.append(bigImgList.get(i))
+                                stringBuffer.append("\n")
+                            }
+                            throw new GradleException(stringBuffer.toString())
                         }
-                        throw new GradleException(stringBuffer.toString())
                     }
-
                 }
 
                 //inject plugin
