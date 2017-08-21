@@ -41,7 +41,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.smallsoho.mobcase:McImage:0.0.4'
+        classpath 'com.smallsoho.mobcase:McImage:0.1.0'
     }
 }
 ```
