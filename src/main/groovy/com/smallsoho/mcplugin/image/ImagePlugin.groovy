@@ -36,11 +36,11 @@ class ImagePlugin implements Plugin<Project> {
         for (int index = 0; index < taskNames.size(); ++index) {
             def taskName = taskNames[index]
             if (taskName.contains("assemble") || taskName.contains("resguard")) {
+                if (taskName.toLowerCase().endsWith("debug") &&
+                        taskName.toLowerCase().contains("debug")) {
+                    isDebugTask = true
+                }
                 isContainAssembleTask = true
-                break
-            }
-            if (taskName.endsWith("Debug") && taskName.contains("Debug")) {
-                isDebugTask = true
                 break
             }
         }
@@ -66,6 +66,7 @@ class ImagePlugin implements Plugin<Project> {
 
                 //debug enable
                 if (isDebugTask && !mConfig.enableWhenDebug) {
+                    println 'Debug not run !'
                     return
                 }
 
@@ -73,8 +74,8 @@ class ImagePlugin implements Plugin<Project> {
                 def mcPicPlugin = "McImage${variant.name.capitalize()}"
                 project.task(mcPicPlugin) {
                     doLast {
-                        println 'Sample task'
 
+                        println '---- McImage Plugin Start ----'
 
                         String resPath = "${project.projectDir}/build/intermediates/res/${imgDir}/"
 
@@ -111,6 +112,8 @@ class ImagePlugin implements Plugin<Project> {
                             }
                             throw new GradleException(stringBuffer.toString())
                         }
+
+                        println '---- McImage Plugin End ----'
                     }
                 }
 
