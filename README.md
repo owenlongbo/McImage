@@ -29,6 +29,7 @@ Used algorithm
 
 > The user use v0.0.2 update plugin need update your mctools dir together.
 
+- 0.1.1 : Bug fix(Fix the problem not work for module and fix the problem of enableWhenDebug not work)
 - 0.0.4 : Add auto choose system future.Remove webpQualitu config (Set inappropriate will result the img lossless)
 - 0.0.3 : Add webp ! It will auto convert your png (without alpha in min API < 18 and not work in min API < 14) and jpg to webp if it will become more small.
 - 0.0.2 : Improve the log.
@@ -43,7 +44,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.smallsoho.mobcase:McImage:0.1.0'
+        classpath 'com.smallsoho.mobcase:McImage:0.1.1'
     }
 }
 ```
