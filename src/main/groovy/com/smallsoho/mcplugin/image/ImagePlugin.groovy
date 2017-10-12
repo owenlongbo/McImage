@@ -5,6 +5,7 @@ import com.smallsoho.mcplugin.image.compress.CompressUtil
 import com.smallsoho.mcplugin.image.models.Config
 import com.smallsoho.mcplugin.image.utils.FileUtil
 import com.smallsoho.mcplugin.image.utils.ImageUtil
+
 import com.smallsoho.mcplugin.image.webp.WebpUtils
 import org.gradle.api.GradleException
 import org.gradle.api.Plugin

@@ -27,6 +27,7 @@ McImage是无侵入式的全量压缩资源图片插件
 
 > v0.0.2以后的用户更新到0.0.2以上需要升级你的mctools文件夹，已经上传到release。
 
+- 0.1.1 : Bug fix，修复了在module中apply无法编译通过的问题，修复了enableWhenDebug开关无法使用的问题
 - 0.0.4 : 添加了自动识别操作系统的支持，去掉了webpQuality选项（设置不好对图片压缩会肉眼可见，强制使用默认值），优化了Log写法
 - 0.0.3 : 添加了对webp的支持。会在压缩之后自动将你符合规则的图片转换为webp格式，并且会比对大小，如果转换之后更大则舍弃转换，并且插件对API 14 和API 18的webp问题进行了处理，具体问题请google查询。
 - 0.0.2 : 完善了日志的输出
@@ -41,7 +42,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.smallsoho.mobcase:McImage:0.1.0'
+        classpath 'com.smallsoho.mobcase:McImage:0.1.1'
     }
 }
 ```
