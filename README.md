@@ -49,7 +49,7 @@ buildscript {
 }
 ```
 
-Then, apply the plugin in your every module.PS: If your have one more Module, you need apply it in every one.
+Then, apply the plugin in your every module.PS: If you have one more Module, you need apply it in every one.
 
 ```groovy
 apply plugin: 'McImage'
