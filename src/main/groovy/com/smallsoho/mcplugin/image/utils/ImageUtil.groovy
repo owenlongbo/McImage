@@ -38,6 +38,7 @@ class ImageUtil {
         if (isImage(imgFile)) {
             if (imgFile.length() >= maxSize) {
                 LogUtil.log(SIZE_TAG, imgFile.getPath(), true as String)
+                return true
             }
         }
         return false
