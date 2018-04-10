@@ -91,7 +91,7 @@ class ImagePlugin implements Plugin<Project> {
                                     file.eachFile { imgFile ->
 
                                         if (mConfig.isCheck && ImageUtil.isBigImage(imgFile, mConfig.maxSize)) {
-                                            bigImgList.add(file.getPath() + file.getName())
+                                            bigImgList.add(imgFile.getPath() + imgFile.getName())
                                         }
                                         if (mConfig.isCompress) {
                                             CompressUtil.compressImg(imgFile)
