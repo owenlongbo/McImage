@@ -7,4 +7,5 @@ class Config {
     def isWebpConvert = true
     def isJPGConvert = true
     def enableWhenDebug = true
+    Iterable<String> whiteList = []
 }

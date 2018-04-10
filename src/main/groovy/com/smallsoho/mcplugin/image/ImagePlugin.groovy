@@ -89,9 +89,12 @@ class ImagePlugin implements Plugin<Project> {
                                 def file = new File("${drawDir}")
                                 if (file.name.contains('drawable') || file.name.contains('mipmap')) {
                                     file.eachFile { imgFile ->
-
-                                        if (mConfig.isCheck && ImageUtil.isBigImage(imgFile, mConfig.maxSize)) {
-                                            bigImgList.add(file.getPath() + file.getName())
+                                        if (mConfig.whiteList.contains("${file.getName()}/${imgFile.getName()}".toString())) {
+                                            return
+                                        }
+                                        if (mConfig.isCheck &&
+                                                ImageUtil.isBigImage(imgFile, mConfig.maxSize)) {
+                                            bigImgList.add(imgFile.getAbsolutePath())
                                         }
                                         if (mConfig.isCompress) {
                                             CompressUtil.compressImg(imgFile)
