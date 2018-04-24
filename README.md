@@ -4,6 +4,13 @@
 
 [Mc插件原理解析](http://smallsoho.com/android/2017/04/07/McImage%E6%8F%92%E4%BB%B6%E8%A7%A3%E6%9E%90/)
 
+Tip: If you want to use the plugin in gradle3.X.
+Please add this line to close aapt2 in gradle.properties
+
+```java
+android.enableAapt2=false
+```
+
 McImage is a Non-invasive plugin for compress all res in your project.
 
 Include
@@ -39,7 +46,7 @@ Used algorithm
 
 The first, add the plugin in your project root build.gradle.
 
-```groovy
+​```groovy
 buildscript {
     repositories {
         jcenter()
@@ -52,7 +59,7 @@ buildscript {
 
 Then, apply the plugin in your every module.PS: If you have one more Module, you need apply it in every one.
 
-```groovy
+​```groovy
 apply plugin: 'McImage'
 ```
 
@@ -92,9 +99,9 @@ License
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
     You may obtain a copy of the License at
-
+    
        http://www.apache.org/licenses/LICENSE-2.0
-
+    
     Unless required by applicable law or agreed to in writing, software
     distributed under the License is distributed on an "AS IS" BASIS,
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.

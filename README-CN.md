@@ -35,6 +35,11 @@ McImage是无侵入式的全量压缩资源图片插件
 
 ### Use
 
+如果你使用gradle3.0以上，请在gradle.properties中加入这句话
+
+```java
+android.enableAapt2=false
+```
 首先，修改你根目录的build.gradle.
 
 ```groovy
@@ -89,9 +94,9 @@ License
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
     You may obtain a copy of the License at
-
+    
        http://www.apache.org/licenses/LICENSE-2.0
-
+    
     Unless required by applicable law or agreed to in writing, software
     distributed under the License is distributed on an "AS IS" BASIS,
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
