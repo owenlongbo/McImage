@@ -59,7 +59,7 @@ buildscript {
 
 Then, apply the plugin in your every module.PS: If you have one more Module, you need apply it in every one.
 
-​```groovy
+```groovy
 apply plugin: 'McImage'
 ```
 
@@ -74,7 +74,7 @@ mctools
 
 You can set the config in build.gradle.If you not set this,all config will use default.
 
-​```groovy
+```groovy
 McImageConfig {
   isCheck true //default true
   isCompress true //default true
