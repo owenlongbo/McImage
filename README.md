@@ -29,6 +29,7 @@ Used algorithm
 
 > The user use v0.0.2 update plugin need update your mctools dir together.
 
+- 0.1.4 : Bug fix, add the white list feature, add the img width and height check feature.
 - 0.1.2 : Bug fix(Fix the problem that check image size not work)
 - 0.1.1 : Bug fix(Fix the problem not work for module and fix the problem of enableWhenDebug not work)
 - 0.0.4 : Add auto choose system future.Remove webpQualitu config (Set inappropriate will result the img lossless)
@@ -52,7 +53,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.smallsoho.mobcase:McImage:0.1.2'
+        classpath 'com.smallsoho.mobcase:McImage:0.1.4'
     }
 }
 ```
@@ -82,6 +83,12 @@ McImageConfig {
   isWebpConvert true //default true
   isJPGConvert true //default true
   enableWhenDebug true //default true
+  isCheckSize true //default true
+  maxWidth 500 //defualt 500 the default size of check size feature
+  maxHeight 500 //defualt 500 the default size of check size feature
+  whiteList = [
+    "xxx.png" //add this line, the plugin can not deal with this img.
+  ]
 }
 ```
 
