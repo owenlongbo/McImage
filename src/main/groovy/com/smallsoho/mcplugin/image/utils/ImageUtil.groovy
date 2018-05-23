@@ -43,4 +43,14 @@ class ImageUtil {
         }
         return false
     }
+
+    static boolean isBigSizeImage(File imgFile,int maxWidth,int maxHeight) {
+        if (isImage(imgFile)) {
+            BufferedImage sourceImg =ImageIO.read(new FileInputStream(imgFile))
+            if (sourceImg.getHeight() > maxHeight || sourceImg.getWidth() > maxWidth) {
+                return true
+            }
+        }
+        return false
+    }
 }

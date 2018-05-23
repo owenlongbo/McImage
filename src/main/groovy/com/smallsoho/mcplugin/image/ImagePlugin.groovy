@@ -99,6 +99,9 @@ class ImagePlugin implements Plugin<Project> {
                                         if (mConfig.isCompress) {
                                             CompressUtil.compressImg(imgFile)
                                         }
+                                        if (mConfig.isCheckSize && ImageUtil.isBigSizeImage(imgFile,mConfig.maxWidth,mConfig.maxHeight)) {
+                                            bigImgList.add(imgFile.getAbsolutePath())
+                                        }
                                         if (mConfig.isWebpConvert) {
                                             WebpUtils.securityFormatWebp(imgFile, mConfig, mProject)
                                         }
