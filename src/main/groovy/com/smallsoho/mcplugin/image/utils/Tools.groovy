@@ -11,7 +11,6 @@ class Tools {
                 cmd = FileUtil.instance.getToolsDirPath() + "mac/" + cmd
                 break
             case "Linux":
-                LinuxInit()
                 cmd = FileUtil.instance.getToolsDirPath() + "linux/" + cmd
                 break
             case "Windows":
@@ -25,8 +24,20 @@ class Tools {
         outputMessage(cmd)
     }
 
-    def static LinuxInit() {
-        outputMessage("chmod 755 -R ${FileUtil.instance.getToolsDirPath() + "/linux/"}")
+    def static boolean isLinux() {
+        String system = System.getProperty("os.name")
+        return "Linux" == system
+    }
+
+    def static boolean chmod() {
+        boolean isSuccess = outputMessage("chmod 777 -R ${FileUtil.instance.getRootDirPath()}")
+        if (isSuccess) {
+            LogUtil.log("chmod success")
+        } else {
+            LogUtil.log("chmod failed")
+        }
+
+        return isSuccess
     }
 
     def static outputMessage(def cmd) {

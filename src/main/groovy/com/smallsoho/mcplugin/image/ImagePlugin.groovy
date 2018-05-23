@@ -5,7 +5,7 @@ import com.smallsoho.mcplugin.image.compress.CompressUtil
 import com.smallsoho.mcplugin.image.models.Config
 import com.smallsoho.mcplugin.image.utils.FileUtil
 import com.smallsoho.mcplugin.image.utils.ImageUtil
-
+import com.smallsoho.mcplugin.image.utils.Tools
 import com.smallsoho.mcplugin.image.webp.WebpUtils
 import org.gradle.api.GradleException
 import org.gradle.api.Plugin
@@ -72,8 +72,8 @@ class ImagePlugin implements Plugin<Project> {
                 }
 
                 def processResourceTask = project.tasks.findByName("process${variant.name.capitalize()}Resources")
-                def mcPicPlugin = "McImage${variant.name.capitalize()}"
-                project.task(mcPicPlugin) {
+                def mcPicTask = "McImage${variant.name.capitalize()}"
+                project.task(mcPicTask) {
                     doLast {
 
                         println '---- McImage Plugin Start ----'
@@ -121,9 +121,22 @@ class ImagePlugin implements Plugin<Project> {
                     }
                 }
 
-                //inject plugin
-                project.tasks.findByName(mcPicPlugin).dependsOn processResourceTask.taskDependencies.getDependencies(processResourceTask)
-                processResourceTask.dependsOn project.tasks.findByName(mcPicPlugin)
+                def chmodTask = "chmod${variant.name.capitalize()}"
+                project.task(chmodTask) {
+                    doLast {
+                        //chmod if linux
+                        if (Tools.isLinux()) {
+                            if (!Tools.chmod()) {
+                                return
+                            }
+                        }
+                    }
+                }
+
+                //inject task
+                project.tasks.findByName(chmodTask).dependsOn processResourceTask.taskDependencies.getDependencies(processResourceTask)
+                project.tasks.findByName(mcPicTask).dependsOn project.tasks.findByName(chmodTask)
+                processResourceTask.dependsOn project.tasks.findByName(mcPicTask)
             }
         }
     }
