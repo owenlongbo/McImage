@@ -27,7 +27,7 @@ class WebpUtils {
     def static formatWebp(File imgFile) {
 
         if (ImageUtil.isImage(imgFile)) {
-            File webpFile = new File("${imgFile.getPath().substring(0, imgFile.getPath().indexOf("."))}.webp")
+            File webpFile = new File("${imgFile.getPath().substring(0, imgFile.getPath().lastIndexOf("."))}.webp")
             Tools.cmd("cwebp ${imgFile.getPath()} -o ${webpFile.getPath()} -quiet")
             if (webpFile.length() < imgFile.length()) {
                 LogUtil.log(TAG, imgFile.getPath(), imgFile.length(), webpFile.length())

@@ -9,6 +9,10 @@ class FileUtil {
         this.rootDir = rootDir
     }
 
+    def getRootDirPath() {
+        return rootDir
+    }
+
     def getToolsDir() {
         return new File("${rootDir}/mctools/")
     }
