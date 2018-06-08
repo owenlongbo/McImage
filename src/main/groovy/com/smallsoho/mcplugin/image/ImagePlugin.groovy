@@ -133,8 +133,6 @@ class ImagePlugin implements Plugin<Project> {
                         if (Tools.isLinux()) {
                             if (Tools.chmod()) {
                                 LogUtil.log("McImage chmod success")
-                            } else {
-                                throw new GradleException("McImage chmod fail")
                             }
                         }
                     }
