@@ -4,7 +4,7 @@ apply plugin: 'com.jfrog.bintray'
 def siteUrl = 'https://github.com/Aweme/McImage'
 def gitUrl = 'https://github.com/Aweme/McImage.git'
 group = "com.smallsoho.mobcase"
-version = "0.1.5"
+version = "1.0.0"
 
 Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
@@ -42,7 +42,6 @@ install {
     }
 }
 task sourcesJar(type: Jar) {
-    from sourceSets.main.groovy.srcDirs
     from sourceSets.main.java.srcDirs
     classifier = 'sources'
 }

@@ -1,25 +1,28 @@
-apply plugin: 'groovy'
+apply plugin: 'kotlin'
 apply from: 'bintray.gradle'
 apply from: 'publish.gradle'
 
 buildscript {
     repositories {
         jcenter()
+        google()
     }
 
     dependencies {
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.2.51"
     }
 }
 
 allprojects {
     repositories {
         jcenter()
+        google()
     }
 }
 
 dependencies {
     compile gradleApi()
     compile localGroovy()
-    compile 'com.android.tools.build:gradle:2.3.0'
+    compile 'com.android.tools.build:gradle:3.1.2'
 }
