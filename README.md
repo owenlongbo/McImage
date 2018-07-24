@@ -18,7 +18,12 @@ Used algorithm
 - [guetzli](https://github.com/google/guetzli) compress jpg
 - [cwebp](https://developers.google.com/speed/webp/) compress webp
 
-### Future
+### Release 1.0.0
+
+gradle 3.X use 1.0.0
+before gradle 3.0 use 0.1.5
+
+### Feature
 
 - Compress all png and jpg, every img can save %70 size.
 - As far as possible to convert img to webp (after v0.0.3 support)
@@ -29,6 +34,7 @@ Used algorithm
 
 > The user use v0.0.2 update plugin need update your mctools dir together.
 
+- 1.0.0 : Support AAPT2 , now don't need to close aapt2 with "android.enableAapt2=false", you can delete this line in gradle.properties.
 - 0.1.4 : Bug fix, add the white list feature, add the img width and height check feature.
 - 0.1.2 : Bug fix(Fix the problem that check image size not work)
 - 0.1.1 : Bug fix(Fix the problem not work for module and fix the problem of enableWhenDebug not work)
@@ -38,13 +44,6 @@ Used algorithm
 
 ### Use
 
-Tip: If you want to use the plugin in gradle3.X.
-Please add this line to close aapt2 in gradle.properties
-
-```java
-android.enableAapt2=false
-```
-
 The first, add the plugin in your project root build.gradle.
 
 ```groovy
@@ -53,7 +52,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.smallsoho.mobcase:McImage:0.1.4'
+        classpath 'com.smallsoho.mobcase:McImage:1.0.0'
     }
 }
 ```
@@ -87,7 +86,7 @@ McImageConfig {
   maxWidth 500 //defualt 500 the default size of check size feature
   maxHeight 500 //defualt 500 the default size of check size feature
   whiteList = [
-    "xxx.png" //add this line, the plugin can not deal with this img.
+    "drawable-xxhdpi-v4/img_five_stars.png" //add this line, the plugin can not deal with this img.
   ]
 }
 ```

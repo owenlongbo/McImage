@@ -16,7 +16,12 @@ McImage是无侵入式的全量压缩资源图片插件
 - [guetzli](https://github.com/google/guetzli)算法压缩jpg
 - [cwebp](https://developers.google.com/speed/webp/)算法转换webp
 
-### Future
+### Release 1.0.0
+
+gradle 3.X版本请使用1.0.0
+gradle 3.0之前版本请使用 0.1.5
+
+### Feature
 
 - 全量压缩png和jpg图片，每张图能节省百分之70大小
 - 最大化收益下对图片进行webp转换 (after v0.0.3 support)
@@ -27,7 +32,8 @@ McImage是无侵入式的全量压缩资源图片插件
 
 > v0.0.2以后的用户更新到0.0.2以上需要升级你的mctools文件夹，已经上传到release。
 
-- 0.1.4 : Bug fix，添加了不处理的图片的白名单，添加了对图片宽高的检查的Feature
+- 1.0.0 : 正式支持了AAPT2，现在不需要使用android.enableAapt2=false关闭了，可以去掉这个flag
+- 0.1.5 : Bug fix，添加了不处理的图片的白名单，添加了对图片宽高的检查的Feature
 - 0.1.2 : Bug fix，修复了检查图片大小功能不生效的问题
 - 0.1.1 : Bug fix，修复了在module中apply无法编译通过的问题，修复了enableWhenDebug开关无法使用的问题
 - 0.0.4 : 添加了自动识别操作系统的支持，去掉了webpQuality选项（设置不好对图片压缩会肉眼可见，强制使用默认值），优化了Log写法
@@ -36,11 +42,6 @@ McImage是无侵入式的全量压缩资源图片插件
 
 ### Use
 
-如果你使用gradle3.0以上，请在gradle.properties中加入这句话
-
-```java
-android.enableAapt2=false
-```
 首先，修改你根目录的build.gradle.
 
 ```groovy
@@ -82,7 +83,7 @@ McImageConfig {
   maxWidth 500 //defualt 500 如果开启图片宽高检查，默认的最大宽度
   maxHeight 500 //defualt 500 如果开启图片宽高检查，默认的最大高度
   whiteList = [
-    "xxx.png" //默认为空，如果添加，对图片不进行任何处理
+    "drawable-xxhdpi-v4/img_five_stars.png" //默认为空，如果添加，对图片不进行任何处理
   ]
 }
 ```

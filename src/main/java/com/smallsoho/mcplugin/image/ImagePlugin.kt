@@ -2,15 +2,10 @@ package com.smallsoho.mcplugin.image;
 
 import com.android.build.gradle.AppExtension
 import com.android.build.gradle.LibraryExtension
-import com.android.build.gradle.internal.api.ApplicationVariantImpl
 import com.android.build.gradle.internal.api.BaseVariantImpl
-import com.android.builder.model.Variant
-import com.smallsoho.mcplugin.image.compress.CompressUtil
-import com.smallsoho.mcplugin.image.utils.FileUtil
-import com.smallsoho.mcplugin.image.utils.ImageUtil
-import com.smallsoho.mcplugin.image.utils.Tools
+import com.smallsoho.mcplugin.image.`interface`.IBigImage
+import com.smallsoho.mcplugin.image.utils.*
 import com.smallsoho.mcplugin.image.webp.WebpUtils
-import groovy.lang.Closure
 import org.gradle.api.GradleException
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -20,15 +15,15 @@ import java.util.*
 
 class ImagePlugin : Plugin<Project> {
 
-    private lateinit var mProject: Project
-    private lateinit var mConfig: Config
+    private lateinit var mcImageProject: Project
+    private lateinit var mcImageConfig: Config
 
 
     override fun apply(project: Project) {
 
         FileUtil.setRootDir(project.rootDir.path)
 
-        mProject = project
+        mcImageProject = project
 
         //判断是library还是application
         val hasAppPlugin = project.plugins.hasPlugin("com.android.application")
@@ -40,7 +35,7 @@ class ImagePlugin : Plugin<Project> {
 
         //set config
         project.extensions.create("McImageConfig", Config::class.java)
-        mConfig = project.property("McImageConfig") as Config
+        mcImageConfig = project.property("McImageConfig") as Config
 
         val taskNames = project.gradle.startParameter.taskNames
         var isDebugTask = false
@@ -74,55 +69,32 @@ class ImagePlugin : Plugin<Project> {
                     throw GradleException("You need put the mctools dir in project root")
                 }
 
-                val imgDir = if (variant.productFlavors.size == 0) {
-                    "merged"
-                } else {
-                    "merged/${variant.productFlavors[0]}"
-                }
-
                 //debug enable
-                if (isDebugTask && !mConfig.enableWhenDebug) {
+                if (isDebugTask && !mcImageConfig.enableWhenDebug) {
                     println("Debug not run !")
                     return@afterEvaluate
                 }
 
-                val processResourceTask = project.tasks.findByName("process${variant.name.capitalize()}Resources")
-                val mcPicTaskName = "McImage${variant.name.capitalize()}"
-
-                val mcPicTask = project.task(mcPicTaskName)
+                val mergeResourcesTask = project.tasks.findByName("merge${variant.name.capitalize()}Resources")
+                val mcPicTask = project.task("McImage${variant.name.capitalize()}")
 
                 mcPicTask.doLast {
                     println("---- McImage Plugin Start ----")
-                    val resPath = "${project.projectDir}/build/intermediates/res/$imgDir/"
-                    val dir = File(resPath)
+
+                    val dir = variant.mergeResources.computeResourceSetList0() //强行调用一下
+
                     val bigImgList = ArrayList<String>()
 
-                    dir.listFiles().forEach { channelDir ->
-                        channelDir.listFiles().forEach { drawDir ->
-                            val file = File("$drawDir")
-                            if (file.name.contains("drawable") || file.name.contains("mipmap")) {
-                                file.listFiles().forEach { imgFile ->
-                                    if (mConfig.whiteList.contains("${file.getName()}/${imgFile.getName()}".toString())) {
-                                        return@doLast
-                                    }
-                                    if (mConfig.isCheck &&
-                                            ImageUtil.isBigImage(imgFile, mConfig.maxSize)) {
-                                        bigImgList.add(imgFile.getAbsolutePath())
-                                    }
-                                    if (mConfig.isCompress) {
-                                        CompressUtil.compressImg(imgFile)
-                                    }
-                                    if (mConfig.isCheckSize && ImageUtil.isBigSizeImage(imgFile, mConfig.maxWidth, mConfig.maxHeight)) {
-                                        bigImgList.add(imgFile.absolutePath)
-                                    }
-                                    if (mConfig.isWebpConvert) {
-                                        WebpUtils.securityFormatWebp(imgFile, mConfig, mProject)
-                                    }
-
+                    if (dir != null) {
+                        for (channelDir: File in dir) {
+                            listDir(channelDir, object : IBigImage {
+                                override fun onBigImage(file: File) {
+                                    bigImgList.add(file.absolutePath)
                                 }
-                            }
+                            })
                         }
                     }
+
 
                     if (bigImgList.size != 0) {
                         val stringBuffer = StringBuffer("You have big Img!!!! \n")
@@ -147,9 +119,47 @@ class ImagePlugin : Plugin<Project> {
                 }
 
                 //inject task
-                (project.tasks.findByName(chmodTask.name) as Task).dependsOn(processResourceTask!!.taskDependencies.getDependencies(processResourceTask))
+                (project.tasks.findByName(chmodTask.name) as Task).dependsOn(mergeResourcesTask!!.taskDependencies.getDependencies(mergeResourcesTask))
                 (project.tasks.findByName(mcPicTask.name) as Task).dependsOn(project.tasks.findByName(chmodTask.name) as Task)
-                processResourceTask.dependsOn(project.tasks.findByName(mcPicTask.name))
+                mergeResourcesTask.dependsOn(project.tasks.findByName(mcPicTask.name))
+
+            }
+        }
+    }
+
+    private fun listDir(file: File, iBigImage: IBigImage) {
+        if (file.isDirectory) {
+            file.listFiles().forEach {
+                if (it.isDirectory) {
+                    listDir(it, iBigImage)
+                } else {
+                    rawCompress(file, iBigImage)
+                }
+            }
+        } else {
+            rawCompress(file, iBigImage)
+        }
+    }
+
+    private fun rawCompress(file: File, iBigImage: IBigImage) {
+        if (file.name.contains("drawable") || file.name.contains("mipmap")) {
+            file.listFiles().forEach { imgFile ->
+                if (mcImageConfig.whiteList.contains("${file.name}/${imgFile.name}")) {
+                    return
+                }
+                if (mcImageConfig.isCheck &&
+                        ImageUtil.isBigImage(imgFile, mcImageConfig.maxSize)) {
+                    iBigImage.onBigImage(imgFile)
+                }
+                if (mcImageConfig.isCompress) {
+                    CompressUtil.compressImg(imgFile)
+                }
+                if (mcImageConfig.isCheckSize && ImageUtil.isBigSizeImage(imgFile, mcImageConfig.maxWidth, mcImageConfig.maxHeight)) {
+                    iBigImage.onBigImage(imgFile)
+                }
+                if (mcImageConfig.isWebpConvert) {
+                    WebpUtils.securityFormatWebp(imgFile, mcImageConfig, mcImageProject)
+                }
 
             }
         }
