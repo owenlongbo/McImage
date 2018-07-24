@@ -2,7 +2,7 @@
 
 [中文文档](README-CN.md)
 
-[Mc插件原理解析](http://smallsoho.com/android/2017/04/07/McImage%E6%8F%92%E4%BB%B6%E8%A7%A3%E6%9E%90/)
+[Mc插件原理解析(0.1.5之前版本)](https://smallsoho.com/android/2017/04/07/McImage%E6%8F%92%E4%BB%B6%E8%A7%A3%E6%9E%90/)
 
 McImage is a Non-invasive plugin for compress all res in your project.
 
