@@ -12,6 +12,7 @@ import org.gradle.api.Project
 import org.gradle.api.Task
 import java.io.File
 import java.util.*
+import kotlin.collections.ArrayList
 
 class ImagePlugin : Plugin<Project> {
 
@@ -85,9 +86,11 @@ class ImagePlugin : Plugin<Project> {
 
                     val bigImgList = ArrayList<String>()
 
+                    val cacheList = ArrayList<String>()
+
                     if (dir != null) {
                         for (channelDir: File in dir) {
-                            listDir(channelDir, object : IBigImage {
+                            listDir(channelDir, cacheList, object : IBigImage {
                                 override fun onBigImage(file: File) {
                                     bigImgList.add(file.absolutePath)
                                 }
@@ -127,13 +130,18 @@ class ImagePlugin : Plugin<Project> {
         }
     }
 
-    private fun listDir(file: File, iBigImage: IBigImage) {
+    private fun listDir(file: File, cacheList: ArrayList<String>, iBigImage: IBigImage) {
+        if (cacheList.contains(file.absolutePath)) {
+            return
+        } else {
+            cacheList.add(file.absolutePath)
+        }
         if (file.isDirectory) {
             file.listFiles().forEach {
                 if (it.isDirectory) {
-                    listDir(it, iBigImage)
+                    listDir(it, cacheList, iBigImage)
                 } else {
-                    rawCompress(file, iBigImage)
+                    rawCompress(it, iBigImage)
                 }
             }
         } else {
@@ -142,26 +150,21 @@ class ImagePlugin : Plugin<Project> {
     }
 
     private fun rawCompress(file: File, iBigImage: IBigImage) {
-        if (file.name.contains("drawable") || file.name.contains("mipmap")) {
-            file.listFiles().forEach { imgFile ->
-                if (mcImageConfig.whiteList.contains("${file.name}/${imgFile.name}")) {
-                    return
-                }
-                if (mcImageConfig.isCheck &&
-                        ImageUtil.isBigImage(imgFile, mcImageConfig.maxSize)) {
-                    iBigImage.onBigImage(imgFile)
-                }
-                if (mcImageConfig.isCompress) {
-                    CompressUtil.compressImg(imgFile)
-                }
-                if (mcImageConfig.isCheckSize && ImageUtil.isBigSizeImage(imgFile, mcImageConfig.maxWidth, mcImageConfig.maxHeight)) {
-                    iBigImage.onBigImage(imgFile)
-                }
-                if (mcImageConfig.isWebpConvert) {
-                    WebpUtils.securityFormatWebp(imgFile, mcImageConfig, mcImageProject)
-                }
-
-            }
+        if (mcImageConfig.whiteList.contains(file.name)) {
+            return
+        }
+        if (mcImageConfig.isCheck &&
+                ImageUtil.isBigImage(file, mcImageConfig.maxSize)) {
+            iBigImage.onBigImage(file)
+        }
+        if (mcImageConfig.isCompress) {
+            CompressUtil.compressImg(file)
+        }
+        if (mcImageConfig.isCheckSize && ImageUtil.isBigSizeImage(file, mcImageConfig.maxWidth, mcImageConfig.maxHeight)) {
+            iBigImage.onBigImage(file)
+        }
+        if (mcImageConfig.isWebpConvert) {
+            WebpUtils.securityFormatWebp(file, mcImageConfig, mcImageProject)
         }
     }
 
