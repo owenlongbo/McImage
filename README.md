@@ -21,6 +21,7 @@ Used algorithm
 ### Release 1.0.0
 
 gradle 3.X use 1.0.0
+
 before gradle 3.0 use 0.1.5
 
 ### Feature
