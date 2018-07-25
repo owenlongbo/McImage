@@ -38,7 +38,7 @@ class ImageUtil {
             }
         }
 
-        fun isBigImage(imgFile: File, maxSize: Int): Boolean {
+        fun isBigImage(imgFile: File, maxSize: Float): Boolean {
             if (isImage(imgFile)) {
                 if (imgFile.length() >= maxSize) {
                     LogUtil.log(SIZE_TAG, imgFile.path, true.toString())

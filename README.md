@@ -18,9 +18,9 @@ Used algorithm
 - [guetzli](https://github.com/google/guetzli) compress jpg
 - [cwebp](https://developers.google.com/speed/webp/) compress webp
 
-### Release 1.0.0
+### Release Success!
 
-gradle 3.X use 1.0.0
+gradle 3.X use 1.X.X
 
 before gradle 3.0 use 0.1.5
 
@@ -35,6 +35,7 @@ before gradle 3.0 use 0.1.5
 
 > The user use v0.0.2 update plugin need update your mctools dir together.
 
+- 1.0.1 : Bug fix, fix maxSize float error
 - 1.0.0 : Support AAPT2 , now don't need to close aapt2 with "android.enableAapt2=false", you can delete this line in gradle.properties.
 - 0.1.4 : Bug fix, add the white list feature, add the img width and height check feature.
 - 0.1.2 : Bug fix(Fix the problem that check image size not work)
@@ -53,7 +54,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.smallsoho.mobcase:McImage:1.0.0'
+        classpath 'com.smallsoho.mobcase:McImage:1.0.1'
     }
 }
 ```

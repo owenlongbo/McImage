@@ -16,9 +16,9 @@ McImage是无侵入式的全量压缩资源图片插件
 - [guetzli](https://github.com/google/guetzli)算法压缩jpg
 - [cwebp](https://developers.google.com/speed/webp/)算法转换webp
 
-### Release 1.0.0
+### Release Success!
 
-gradle 3.X版本请使用1.0.0
+gradle 3.X版本请使用1.X.X
 
 gradle 3.0之前版本请使用 0.1.5
 
@@ -33,6 +33,7 @@ gradle 3.0之前版本请使用 0.1.5
 
 > v0.0.2以后的用户更新到0.0.2以上需要升级你的mctools文件夹，已经上传到release。
 
+- 1.0.1 : 修复了maxSize无法使用浮点数的问题
 - 1.0.0 : 正式支持了AAPT2，现在不需要使用android.enableAapt2=false关闭了，可以去掉这个flag
 - 0.1.5 : Bug fix，添加了不处理的图片的白名单，添加了对图片宽高的检查的Feature
 - 0.1.2 : Bug fix，修复了检查图片大小功能不生效的问题
@@ -51,7 +52,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.smallsoho.mobcase:McImage:0.1.4'
+        classpath 'com.smallsoho.mobcase:McImage:1.0.1'
     }
 }
 ```

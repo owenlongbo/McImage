@@ -2,7 +2,7 @@ package com.smallsoho.mcplugin.image;
 
 public class Config {
 
-    public int maxSize = 1024 * 1024;
+    public float maxSize = 1024 * 1024;
     public boolean isCheck = true;
     public boolean isCompress = true;
     public boolean isWebpConvert = true;
@@ -13,7 +13,7 @@ public class Config {
     public int maxHeight = 500;
     public String[] whiteList = new String[]{};
 
-    public void maxSize(int maxSize) {
+    public void maxSize(float maxSize) {
         this.maxSize = maxSize;
     }
 
