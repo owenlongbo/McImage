@@ -44,6 +44,10 @@ before gradle 3.0 use 0.1.5
 - 0.0.3 : Add webp ! It will auto convert your png (without alpha in min API < 18 and not work in min API < 14) and jpg to webp if it will become more small.
 - 0.0.2 : Improve the log.
 
+### Who is using
+
+I can put your icon with one link at here if you use McImage. My email b3069741@gmail.com
+
 ### Use
 
 The first, add the plugin in your project root build.gradle.
