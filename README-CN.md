@@ -1,6 +1,6 @@
 # McImage
 
-[Mc插件原理解析(0.1.5之前版本)](https://smallsoho.com/android/2017/04/07/McImage%E6%8F%92%E4%BB%B6%E8%A7%A3%E6%9E%90/)
+[Android优雅的打包时自动化获取全部res资源)](https://smallsoho.com/android/2018/07/26/Android-Hook%E6%89%93%E5%8C%85%E6%B5%81%E7%A8%8B%E8%8E%B7%E5%8F%96%E5%85%A8%E9%83%A8res%E8%B5%84%E6%BA%90/)
 
 McImage是无侵入式的全量压缩资源图片插件
 
