@@ -1,5 +1,7 @@
 # McImage
 
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/mcimage/McImage)
+
 [中文文档](README-CN.md)
 
 [Android优雅的打包时自动化获取全部res资源](https://smallsoho.com/android/2018/07/26/Android-Hook%E6%89%93%E5%8C%85%E6%B5%81%E7%A8%8B%E8%8E%B7%E5%8F%96%E5%85%A8%E9%83%A8res%E8%B5%84%E6%BA%90/)
