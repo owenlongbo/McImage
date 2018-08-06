@@ -22,9 +22,7 @@ Used algorithm
 
 ### Release Success!
 
-gradle 3.X use 1.X.X
-
-before gradle 3.0 use 0.1.5
+The version 1.0.1 now support all build.gradle version!
 
 ### Feature
 

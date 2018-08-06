@@ -20,9 +20,7 @@ McImage是无侵入式的全量压缩资源图片插件
 
 ### Release Success!
 
-gradle 3.X版本请使用1.X.X
-
-gradle 3.0之前版本请使用 0.1.5
+1.0.1版本现在支持全版本的build.gradle脚本！
 
 ### Feature
 
