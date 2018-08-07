@@ -10,7 +10,7 @@ buildscript {
 
     dependencies {
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.2.51"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.2.60"
     }
 }
 

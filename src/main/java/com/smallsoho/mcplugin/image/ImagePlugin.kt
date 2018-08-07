@@ -58,13 +58,11 @@ class ImagePlugin : Plugin<Project> {
             return
         }
 
-        project.afterEvaluate {
+        project.afterEvaluate { _ ->
 
-            variants.forEach {
+            variants.all { variant ->
 
-                it as BaseVariantImpl
-
-                val variant = it
+                variant as BaseVariantImpl
 
                 if (!FileUtil.getToolsDir().exists()) {
                     throw GradleException("You need put the mctools dir in project root")
@@ -73,13 +71,13 @@ class ImagePlugin : Plugin<Project> {
                 //debug enable
                 if (isDebugTask && !mcImageConfig.enableWhenDebug) {
                     println("Debug not run !")
-                    return@afterEvaluate
+                    return@all
                 }
 
                 val mergeResourcesTask = project.tasks.findByName("merge${variant.name.capitalize()}Resources")
                 val mcPicTask = project.task("McImage${variant.name.capitalize()}")
 
-                mcPicTask.doLast {
+                mcPicTask.doLast { _ ->
                     println("---- McImage Plugin Start ----")
 
                     val dir = variant.mergeResources.computeResourceSetList0() //强行调用一下
@@ -114,7 +112,7 @@ class ImagePlugin : Plugin<Project> {
 
                 val chmodTaskName = "chmod${variant.name.capitalize()}"
                 val chmodTask = project.task(chmodTaskName)
-                chmodTask.doLast {
+                chmodTask.doLast { _ ->
                     //chmod if linux
                     if (Tools.isLinux()) {
                         Tools.chmod()
