@@ -12,6 +12,7 @@ public class Config {
     public int maxWidth = 500;
     public int maxHeight = 500;
     public String[] whiteList = new String[]{};
+    public String mctoolsDir = "";
 
     public void maxSize(float maxSize) {
         this.maxSize = maxSize;
@@ -51,5 +52,9 @@ public class Config {
 
     public void whiteList(String[] whiteList) {
         this.whiteList = whiteList;
+    }
+
+    public void mctoolsDir(String mctoolsDir) {
+        this.mctoolsDir = mctoolsDir;
     }
 }
