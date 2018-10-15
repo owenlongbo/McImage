@@ -11,8 +11,6 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.Task
 import java.io.File
-import java.util.*
-import kotlin.collections.ArrayList
 
 class ImagePlugin : Plugin<Project> {
 
@@ -21,8 +19,6 @@ class ImagePlugin : Plugin<Project> {
 
 
     override fun apply(project: Project) {
-
-        FileUtil.setRootDir(project.rootDir.path)
 
         mcImageProject = project
 
@@ -63,6 +59,12 @@ class ImagePlugin : Plugin<Project> {
             variants.all { variant ->
 
                 variant as BaseVariantImpl
+
+                if (mcImageConfig.mctoolsDir.isBlank()) {
+                    FileUtil.setRootDir(project.rootDir.path)
+                } else{
+                    FileUtil.setRootDir(mcImageConfig.mctoolsDir)
+                }
 
                 if (!FileUtil.getToolsDir().exists()) {
                     throw GradleException("You need put the mctools dir in project root")
