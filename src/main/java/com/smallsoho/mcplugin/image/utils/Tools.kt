@@ -16,11 +16,11 @@ class Tools {
                 val system = System.getProperty("os.name")
                 when (system) {
                     "Mac OS X" ->
-                        FileUtil.getToolsDirPath() + "mac/" + cmd
+                        FileUtil.getToolsDirPath() + "mac/" + "$cmd $params"
                     "Linux" ->
-                        FileUtil.getToolsDirPath() + "linux/" + cmd
+                        FileUtil.getToolsDirPath() + "linux/" + "$cmd $params"
                     "Windows" ->
-                        FileUtil.getToolsDirPath() + "windows/" + cmd
+                        FileUtil.getToolsDirPath() + "windows/" + "$cmd $params"
                     else -> ""
                 }
             }
