@@ -35,6 +35,7 @@ The version 1.0.1 now support all build.gradle version!
 
 > The user use v0.0.2 update plugin need update your mctools dir together.
 
+- 1.2.0 : Feature, get compress command from system environment prior to local file
 - 1.0.1 : Bug fix, fix maxSize float error
 - 1.0.0 : Support AAPT2 , now don't need to close aapt2 with "android.enableAapt2=false", you can delete this line in gradle.properties.
 - 0.1.4 : Bug fix, add the white list feature, add the img width and height check feature.
