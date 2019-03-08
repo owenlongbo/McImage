@@ -27,7 +27,7 @@ class WebpUtils {
         private fun formatWebp(imgFile: File) {
             if (ImageUtil.isImage(imgFile)) {
                 val webpFile = File("${imgFile.path.substring(0, imgFile.path.lastIndexOf("."))}.webp")
-                Tools.cmd("cwebp ${imgFile.path} -o ${webpFile.path} -quiet")
+                Tools.cmd("cwebp", "${imgFile.path} -o ${webpFile.path} -quiet")
                 if (webpFile.length() < imgFile.length()) {
                     LogUtil.log(TAG, imgFile.path, imgFile.length().toString(), webpFile.length().toString())
                     if (imgFile.exists()) {

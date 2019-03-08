@@ -10,9 +10,9 @@ class CompressUtil {
             if (ImageUtil.isImage(imgFile)) {
                 val oldSize = imgFile.length()
                 if (ImageUtil.isJPG(imgFile)) {
-                    Tools.cmd("guetzli ${imgFile.path} ${imgFile.path}")
+                    Tools.cmd("guetzli", "${imgFile.path} ${imgFile.path}")
                 } else {
-                    Tools.cmd("pngquant --skip-if-larger --speed 3 --force --output ${imgFile.path} -- ${imgFile.path}")
+                    Tools.cmd("pngquant", "--skip-if-larger --speed 3 --force --output ${imgFile.path} -- ${imgFile.path}")
                 }
                 val newSize = imgFile.length()
                 LogUtil.log(TAG, imgFile.path, oldSize.toString(), newSize.toString())
