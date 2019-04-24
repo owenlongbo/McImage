@@ -39,7 +39,7 @@ class ImagePlugin : Plugin<Project> {
         var isContainAssembleTask = false
         for (index: Int in 0 until taskNames.size) {
             val taskName = taskNames[index]
-            if (taskName.contains("assemble") || taskName.contains("resguard")) {
+            if (taskName.contains("assemble") || taskName.contains("resguard") || taskName.contains("bundle")) {
                 if (taskName.toLowerCase().endsWith("debug") &&
                         taskName.toLowerCase().contains("debug")) {
                     isDebugTask = true
@@ -62,7 +62,7 @@ class ImagePlugin : Plugin<Project> {
 
                 if (mcImageConfig.mctoolsDir.isBlank()) {
                     FileUtil.setRootDir(project.rootDir.path)
-                } else{
+                } else {
                     FileUtil.setRootDir(mcImageConfig.mctoolsDir)
                 }
 
