@@ -13,6 +13,7 @@ public class Config {
     public int maxHeight = 500;
     public String[] whiteList = new String[]{};
     public String mctoolsDir = "";
+    public boolean multiThread = true;
 
     public void maxSize(float maxSize) {
         this.maxSize = maxSize;
@@ -56,5 +57,13 @@ public class Config {
 
     public void mctoolsDir(String mctoolsDir) {
         this.mctoolsDir = mctoolsDir;
+    }
+
+    public boolean isMultiThread() {
+        return multiThread;
+    }
+
+    public void setMultiThread(boolean multiThread) {
+        this.multiThread = multiThread;
     }
 }
