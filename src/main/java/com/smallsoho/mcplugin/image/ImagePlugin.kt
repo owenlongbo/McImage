@@ -11,12 +11,12 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.Task
 import java.io.File
+import java.util.concurrent.*
 
 class ImagePlugin : Plugin<Project> {
 
     private lateinit var mcImageProject: Project
     private lateinit var mcImageConfig: Config
-
 
     override fun apply(project: Project) {
 
@@ -88,16 +88,17 @@ class ImagePlugin : Plugin<Project> {
 
                     val cacheList = ArrayList<String>()
 
+                    val imageFileList = ArrayList<File>()
+
                     if (dir != null) {
                         for (channelDir: File in dir) {
-                            listDir(channelDir, cacheList, object : IBigImage {
+                            listDir(channelDir, imageFileList, cacheList, object : IBigImage {
                                 override fun onBigImage(file: File) {
                                     bigImgList.add(file.absolutePath)
                                 }
                             })
                         }
                     }
-
 
                     if (bigImgList.size != 0) {
                         val stringBuffer = StringBuffer("You have big Img!!!! \n")
@@ -108,9 +109,12 @@ class ImagePlugin : Plugin<Project> {
                         throw GradleException(stringBuffer.toString())
                     }
 
-                    println("---- McImage Plugin End ----")
-                }
+                    val start = System.currentTimeMillis()
 
+                    mtCompress(imageFileList)
+
+                    println("---- McImage Plugin End ----, Total Time(ms) : ${System.currentTimeMillis() - start}")
+                }
 
                 val chmodTaskName = "chmod${variant.name.capitalize()}"
                 val chmodTask = project.task(chmodTaskName)
@@ -130,7 +134,7 @@ class ImagePlugin : Plugin<Project> {
         }
     }
 
-    private fun listDir(file: File, cacheList: ArrayList<String>, iBigImage: IBigImage) {
+    private fun listDir(file: File, imageFileList: ArrayList<File>, cacheList: ArrayList<String>, iBigImage: IBigImage) {
         if (cacheList.contains(file.absolutePath)) {
             return
         } else {
@@ -139,33 +143,65 @@ class ImagePlugin : Plugin<Project> {
         if (file.isDirectory) {
             file.listFiles().forEach {
                 if (it.isDirectory) {
-                    listDir(it, cacheList, iBigImage)
+                    listDir(it, imageFileList, cacheList, iBigImage)
                 } else {
-                    rawCompress(it, iBigImage)
+                    filterImage(it, imageFileList, iBigImage)
                 }
             }
         } else {
-            rawCompress(file, iBigImage)
+            filterImage(file, imageFileList, iBigImage)
         }
     }
 
-    private fun rawCompress(file: File, iBigImage: IBigImage) {
-        if (mcImageConfig.whiteList.contains(file.name)) {
+    private fun filterImage(file: File, imageFileList: ArrayList<File>, iBigImage: IBigImage) {
+        if (mcImageConfig.whiteList.contains(file.name) || !ImageUtil.isImage(file)) {
             return
         }
-        if (mcImageConfig.isCheck &&
-                ImageUtil.isBigImage(file, mcImageConfig.maxSize)) {
+        if ((mcImageConfig.isCheck && ImageUtil.isBigImage(file, mcImageConfig.maxSize))
+                || (mcImageConfig.isCheckSize
+                        && ImageUtil.isBigSizeImage(file, mcImageConfig.maxWidth, mcImageConfig.maxHeight))) {
             iBigImage.onBigImage(file)
         }
+        imageFileList.add(file)
+    }
+
+    private fun mtCompress(imageFileList: ArrayList<File>) {
+        if (imageFileList == null || imageFileList.size == 0) {
+            return
+        }
+        val coreNum = Runtime.getRuntime().availableProcessors()
+        if (imageFileList.size < coreNum || !mcImageConfig.isMultiThread) {
+            for (file in imageFileList) {
+                rawCompress(file)
+            }
+        } else {
+            val results = ArrayList<Future<Unit>>()
+            val pool = Executors.newFixedThreadPool(coreNum)
+            val part = imageFileList.size / coreNum
+            for (i in 0 until coreNum) {
+                val from = i * part
+                val to = if (i == coreNum - 1) imageFileList.size - 1 else (i + 1) * part - 1
+                results.add(pool.submit(Callable<Unit> {
+                    for (index in from..to) {
+                        rawCompress(imageFileList[index])
+                    }
+                }))
+            }
+            for (f in results) {
+                try {
+                    f.get()
+                } catch (ignore: Exception) {
+                }
+            }
+        }
+    }
+
+    private fun rawCompress(file: File) {
         if (mcImageConfig.isCompress) {
             CompressUtil.compressImg(file)
-        }
-        if (mcImageConfig.isCheckSize && ImageUtil.isBigSizeImage(file, mcImageConfig.maxWidth, mcImageConfig.maxHeight)) {
-            iBigImage.onBigImage(file)
         }
         if (mcImageConfig.isWebpConvert) {
             WebpUtils.securityFormatWebp(file, mcImageConfig, mcImageProject)
         }
     }
-
 }
