@@ -14,7 +14,7 @@ public class Config {
     public int maxHeight = 1000;
     public String[] whiteList = new String[]{}; //优化图片白名单
     public String mctoolsDir = "";
-    public boolean isSupportAlphaWebp = true; //是否支持webp化透明通道的图片
+    public boolean isSupportAlphaWebp = false; //是否支持webp化透明通道的图片,如果开启，请确保minSDK >= 18,或做了其他兼容措施
     public boolean multiThread = true;
     public String[] bigImageWhiteList = new String[]{}; //大图检测白名单
 

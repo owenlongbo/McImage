@@ -91,13 +91,13 @@ McImageConfig {
         isCheckPixels true // Whether to detect image pixels of width and height，default true
         maxWidth 1000 //defualt 1000 
         maxHeight 1000 //defualt 1000 
-        whiteList = [ //do not do any optimization for the Images who in the list 
+        whiteList = [ //do not do any optimization for the images who in the list 
                       "icon_launcher.png"
         ]
         mctoolsDir "$rootDir/tools"
-        isSupportAlphaWebp true  //Whether support convert the Image with Alpha chanel to Webp，default true, its need api level >=18 or do some compatible measures 
-        multiThread true  //是否开启多线程处理图片，default true 
-        bigImageWhiteList = [ //默认为空，如果添加，大图检测将跳过这些图片
+        isSupportAlphaWebp false  //Whether support convert the Image with Alpha chanel to Webp，default false, if config true, its need api level >=18 or do some compatible measures 
+        multiThread true  //Whether open muti-thread processing，default true 
+        bigImageWhiteList = [ //do not detect big size or large pixels for the images who in the list
         ]
 }
 ```
