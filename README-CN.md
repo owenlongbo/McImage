@@ -84,20 +84,20 @@ mctools
 ```groovy
 McImageConfig {
   isCheckSize true //是否检测图片大小，默认为true
-      optimizeType "ConertWebp" //优化类型，可选"ConvertWebp"，"Compress"，转换为webp或原图压缩，默认ConvertWebp，压缩比更高
-      maxSize 1*1024*1024 //大图片阈值，default 1MB
-      enableWhenDebug false //debug下是否可用，default true
-      isCheckPixels true // 是否检测大像素图片，default true
-      maxWidth 1000 //defualt 1000 如果开启图片宽高检查，默认的最大宽度
-      maxHeight 1000 //defualt 1000 如果开启图片宽高检查，默认的最大高度
-      whiteList = [ //默认为空，如果添加，对图片不进行任何处理
-                    "icon_launcher.png"
-      ]
-      mctoolsDir "$rootDir/tools"
-      isSupportAlphaWebp true  //是否支持带有透明度的webp，default true 
-      multiThread true  //是否开启多线程处理图片，default true 
-      bigImageWhiteList = [ //默认为空，如果添加，大图检测将跳过这些图片
-      ]
+  optimizeType "ConertWebp" //优化类型，可选"ConvertWebp"，"Compress"，转换为webp或原图压缩，默认ConvertWebp，压缩比更高
+  maxSize 1*1024*1024 //大图片阈值，default 1MB
+  enableWhenDebug false //debug下是否可用，default true
+  isCheckPixels true // 是否检测大像素图片，default true
+  maxWidth 1000 //defualt 1000 如果开启图片宽高检查，默认的最大宽度
+  maxHeight 1000 //defualt 1000 如果开启图片宽高检查，默认的最大高度
+  whiteList = [ //默认为空，如果添加，对图片不进行任何处理
+             "icon_launcher.png"
+  ]
+  mctoolsDir "$rootDir/tools"
+  isSupportAlphaWebp false  //是否支持带有透明度的webp，default false,带有透明图的图片会进行压缩
+  multiThread true  //是否开启多线程处理图片，default true 
+  bigImageWhiteList = [ //默认为空，如果添加，大图检测将跳过这些图片
+  ]
 }
 ```
 

@@ -85,20 +85,20 @@ You can set the config in build.gradle.If you not set this,all config will use d
 ```groovy
 McImageConfig {
     isCheckSize true //Whether to detect image size，default true
-        optimizeType "ConertWebp" //Optimize Type，"ConvertWebp" or "Compress"，default "ConvertWebp"
-        maxSize 1*1024*1024 //big image size threshold，default 1MB
-        enableWhenDebug false //swithc in debug build，default true
-        isCheckPixels true // Whether to detect image pixels of width and height，default true
-        maxWidth 1000 //defualt 1000 
-        maxHeight 1000 //defualt 1000 
-        whiteList = [ //do not do any optimization for the images who in the list 
-                      "icon_launcher.png"
-        ]
-        mctoolsDir "$rootDir/tools"
-        isSupportAlphaWebp false  //Whether support convert the Image with Alpha chanel to Webp，default false, if config true, its need api level >=18 or do some compatible measures 
-        multiThread true  //Whether open muti-thread processing，default true 
-        bigImageWhiteList = [ //do not detect big size or large pixels for the images who in the list
-        ]
+    optimizeType "ConertWebp" //Optimize Type，"ConvertWebp" or "Compress"，default "ConvertWebp"
+    maxSize 1*1024*1024 //big image size threshold，default 1MB
+    enableWhenDebug false //swithc in debug build，default true
+    isCheckPixels true // Whether to detect image pixels of width and height，default true
+    maxWidth 1000 //defualt 1000 
+    maxHeight 1000 //defualt 1000 
+    whiteList = [ //do not do any optimization for the images who in the list 
+              "icon_launcher.png"
+    ]
+    mctoolsDir "$rootDir/tools"
+    isSupportAlphaWebp false  //Whether support convert the Image with Alpha chanel to Webp，default false, the images with alpha chanels will be compressed.if config true, its need api level >=18 or do some compatible measures 
+    multiThread true  //Whether open muti-thread processing，default true 
+    bigImageWhiteList = [ //do not detect big size or large pixels for the images who in the list
+    ]
 }
 ```
 
