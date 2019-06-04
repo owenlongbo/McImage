@@ -32,7 +32,8 @@ McImage是无侵入式的全量压缩资源图片插件
 ### Update Log
 
 > v0.0.2以后的用户更新到0.0.2以上需要升级你的mctools文件夹，已经上传到release。
-
+- 1.4.0 : 区分优化类型，可选择ConvertWep或Compress, 默认ConvertWebp，压缩比更高
+- 1.3.0 : 支持多线程压缩，缩短执行时间
 - 1.2.0 : 优先从系统获取压缩命令, 不存在使用本地文件命令
 - 1.0.1 : 修复了maxSize无法使用浮点数的问题
 - 1.0.0 : 正式支持了AAPT2，现在不需要使用android.enableAapt2=false关闭了，可以去掉这个flag
@@ -59,7 +60,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.smallsoho.mobcase:McImage:1.0.1'
+        classpath 'com.smallsoho.mobcase:McImage:1.4.0'
     }
 }
 ```
@@ -82,18 +83,21 @@ mctools
 
 ```groovy
 McImageConfig {
-  isCheck true //default true   是否进行图片大小超标的检查
-  isCompress true //default true  是否进行图片压缩
-  maxSize 1*1024*1024 //default 1MB  图片大小超标的标准大小
-  isWebpConvert true //default true 是否进行对图片的webp处理
-  isJPGConvert true //default true 是否对jpg进行webp处理
-  enableWhenDebug true //default true 是否在debug的时候启用插件
-  isCheckSize true //default true 是否开启图片宽高检查
-  maxWidth 500 //defualt 500 如果开启图片宽高检查，默认的最大宽度
-  maxHeight 500 //defualt 500 如果开启图片宽高检查，默认的最大高度
-  whiteList = [
-    "drawable-xxhdpi-v4/img_five_stars.png" //默认为空，如果添加，对图片不进行任何处理
-  ]
+  isCheckSize true //是否检测图片大小，默认为true
+      optimizeType "ConertWebp" //优化类型，可选"ConvertWebp"，"Compress"，转换为webp或原图压缩，默认ConvertWebp，压缩比更高
+      maxSize 1*1024*1024 //大图片阈值，default 1MB
+      enableWhenDebug false //debug下是否可用，default true
+      isCheckPixels true // 是否检测大像素图片，default true
+      maxWidth 1000 //defualt 1000 如果开启图片宽高检查，默认的最大宽度
+      maxHeight 1000 //defualt 1000 如果开启图片宽高检查，默认的最大高度
+      whiteList = [ //默认为空，如果添加，对图片不进行任何处理
+                    "icon_launcher.png"
+      ]
+      mctoolsDir "$rootDir/tools"
+      isSupportAlphaWebp true  //是否支持带有透明度的webp，default true 
+      multiThread true  //是否开启多线程处理图片，default true 
+      bigImageWhiteList = [ //默认为空，如果添加，大图检测将跳过这些图片
+      ]
 }
 ```
 

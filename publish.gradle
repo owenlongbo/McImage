@@ -2,7 +2,7 @@ apply plugin: 'maven'
 apply plugin: 'signing'
 
 def DEBUG = true
-def VERSION = '1.3.0'
+def VERSION = '1.4.0'
 def GROUP = 'com.smallsoho.mobcase'
 def ARTIFACT = 'McImage'
 

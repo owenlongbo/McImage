@@ -34,7 +34,8 @@ The version 1.0.1 now support all build.gradle version!
 ### Update Log
 
 > The user use v0.0.2 update plugin need update your mctools dir together.
-
+- 1.4.0 : Featrue, Support for selecting different optimization types，"ConvertWebp" or "Compress" can be chosen.Default "WebpConvert" be Choosen because it has a better compression ratio.
+- 1.3.0 : Featrue, Support multi-thread processing
 - 1.2.0 : Feature, get compress command from system environment prior to local file
 - 1.0.1 : Bug fix, fix maxSize float error
 - 1.0.0 : Support AAPT2 , now don't need to close aapt2 with "android.enableAapt2=false", you can delete this line in gradle.properties.
@@ -59,7 +60,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.smallsoho.mobcase:McImage:1.0.1'
+        classpath 'com.smallsoho.mobcase:McImage:1.4.0'
     }
 }
 ```
@@ -83,18 +84,21 @@ You can set the config in build.gradle.If you not set this,all config will use d
 
 ```groovy
 McImageConfig {
-  isCheck true //default true
-  isCompress true //default true
-  maxSize 1*1024*1024 //default 1MB
-  isWebpConvert true //default true
-  isJPGConvert true //default true
-  enableWhenDebug true //default true
-  isCheckSize true //default true
-  maxWidth 500 //defualt 500 the default size of check size feature
-  maxHeight 500 //defualt 500 the default size of check size feature
-  whiteList = [
-    "drawable-xxhdpi-v4/img_five_stars.png" //add this line, the plugin can not deal with this img.
-  ]
+    isCheckSize true //Whether to detect image size，default true
+        optimizeType "ConertWebp" //Optimize Type，"ConvertWebp" or "Compress"，default "ConvertWebp"
+        maxSize 1*1024*1024 //big image size threshold，default 1MB
+        enableWhenDebug false //swithc in debug build，default true
+        isCheckPixels true // Whether to detect image pixels of width and height，default true
+        maxWidth 1000 //defualt 1000 
+        maxHeight 1000 //defualt 1000 
+        whiteList = [ //do not do any optimization for the Images who in the list 
+                      "icon_launcher.png"
+        ]
+        mctoolsDir "$rootDir/tools"
+        isSupportAlphaWebp true  //Whether support convert the Image with Alpha chanel to Webp，default true, its need api level >=18 or do some compatible measures 
+        multiThread true  //是否开启多线程处理图片，default true 
+        bigImageWhiteList = [ //默认为空，如果添加，大图检测将跳过这些图片
+        ]
 }
 ```
 
