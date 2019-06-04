@@ -17,7 +17,9 @@ class ImagePlugin : Plugin<Project> {
 
     private lateinit var mcImageProject: Project
     private lateinit var mcImageConfig: Config
-
+    private var oldSize: Long = 0
+    private var newSize: Long = 0
+    val bigImgList = ArrayList<String>()
     override fun apply(project: Project) {
 
         mcImageProject = project
@@ -60,15 +62,7 @@ class ImagePlugin : Plugin<Project> {
 
                 variant as BaseVariantImpl
 
-                if (mcImageConfig.mctoolsDir.isBlank()) {
-                    FileUtil.setRootDir(project.rootDir.path)
-                } else {
-                    FileUtil.setRootDir(mcImageConfig.mctoolsDir)
-                }
-
-                if (!FileUtil.getToolsDir().exists()) {
-                    throw GradleException("You need put the mctools dir in project root")
-                }
+                checkMcTools(project)
 
                 //debug enable
                 if (isDebugTask && !mcImageConfig.enableWhenDebug) {
@@ -81,10 +75,9 @@ class ImagePlugin : Plugin<Project> {
 
                 mcPicTask.doLast { _ ->
                     println("---- McImage Plugin Start ----")
+                    println(mcImageConfig.toString())
 
                     val dir = variant.mergeResources.computeResourceSetList0() //强行调用一下
-
-                    val bigImgList = ArrayList<String>()
 
                     val cacheList = ArrayList<String>()
 
@@ -92,7 +85,7 @@ class ImagePlugin : Plugin<Project> {
 
                     if (dir != null) {
                         for (channelDir: File in dir) {
-                            listDir(channelDir, imageFileList, cacheList, object : IBigImage {
+                            traverseResDir(channelDir, imageFileList, cacheList, object : IBigImage {
                                 override fun onBigImage(file: File) {
                                     bigImgList.add(file.absolutePath)
                                 }
@@ -100,19 +93,12 @@ class ImagePlugin : Plugin<Project> {
                         }
                     }
 
-                    if (bigImgList.size != 0) {
-                        val stringBuffer = StringBuffer("You have big Img!!!! \n")
-                        for (i: Int in 0 until bigImgList.size) {
-                            stringBuffer.append(bigImgList[i])
-                            stringBuffer.append("\n")
-                        }
-                        throw GradleException(stringBuffer.toString())
-                    }
+                    checkBigImage()
 
                     val start = System.currentTimeMillis()
 
-                    mtCompress(imageFileList)
-
+                    mtDispathOptimizeTask(imageFileList)
+                    println(sizeInfo())
                     println("---- McImage Plugin End ----, Total Time(ms) : ${System.currentTimeMillis() - start}")
                 }
 
@@ -134,7 +120,7 @@ class ImagePlugin : Plugin<Project> {
         }
     }
 
-    private fun listDir(file: File, imageFileList: ArrayList<File>, cacheList: ArrayList<String>, iBigImage: IBigImage) {
+    private fun traverseResDir(file: File, imageFileList: ArrayList<File>, cacheList: ArrayList<String>, iBigImage: IBigImage) {
         if (cacheList.contains(file.absolutePath)) {
             return
         } else {
@@ -143,7 +129,7 @@ class ImagePlugin : Plugin<Project> {
         if (file.isDirectory) {
             file.listFiles().forEach {
                 if (it.isDirectory) {
-                    listDir(it, imageFileList, cacheList, iBigImage)
+                    traverseResDir(it, imageFileList, cacheList, iBigImage)
                 } else {
                     filterImage(it, imageFileList, iBigImage)
                 }
@@ -157,22 +143,23 @@ class ImagePlugin : Plugin<Project> {
         if (mcImageConfig.whiteList.contains(file.name) || !ImageUtil.isImage(file)) {
             return
         }
-        if ((mcImageConfig.isCheck && ImageUtil.isBigImage(file, mcImageConfig.maxSize))
-                || (mcImageConfig.isCheckSize
-                        && ImageUtil.isBigSizeImage(file, mcImageConfig.maxWidth, mcImageConfig.maxHeight))) {
+        if (((mcImageConfig.isCheckSize && ImageUtil.isBigSizeImage(file, mcImageConfig.maxSize))
+                || (mcImageConfig.isCheckPixels
+                        && ImageUtil.isBigPixelImage(file, mcImageConfig.maxWidth, mcImageConfig.maxHeight)))
+                && !mcImageConfig.bigImageWhiteList.contains(file.name)) {
             iBigImage.onBigImage(file)
         }
         imageFileList.add(file)
     }
 
-    private fun mtCompress(imageFileList: ArrayList<File>) {
-        if (imageFileList == null || imageFileList.size == 0) {
+    private fun mtDispathOptimizeTask(imageFileList: ArrayList<File>) {
+        if (imageFileList == null || imageFileList.size == 0 || !bigImgList.isEmpty()) {
             return
         }
         val coreNum = Runtime.getRuntime().availableProcessors()
-        if (imageFileList.size < coreNum || !mcImageConfig.isMultiThread) {
+        if (imageFileList.size < coreNum || !mcImageConfig.multiThread) {
             for (file in imageFileList) {
-                rawCompress(file)
+                optimizeImage(file)
             }
         } else {
             val results = ArrayList<Future<Unit>>()
@@ -183,7 +170,7 @@ class ImagePlugin : Plugin<Project> {
                 val to = if (i == coreNum - 1) imageFileList.size - 1 else (i + 1) * part - 1
                 results.add(pool.submit(Callable<Unit> {
                     for (index in from..to) {
-                        rawCompress(imageFileList[index])
+                        optimizeImage(imageFileList[index])
                     }
                 }))
             }
@@ -196,12 +183,68 @@ class ImagePlugin : Plugin<Project> {
         }
     }
 
-    private fun rawCompress(file: File) {
-        if (mcImageConfig.isCompress) {
-            CompressUtil.compressImg(file)
+    private fun optimizeImage(file: File) {
+        var path: String = file.path
+        if(File(path).exists()) {
+            oldSize += File(path).length()
         }
-        if (mcImageConfig.isWebpConvert) {
-            WebpUtils.securityFormatWebp(file, mcImageConfig, mcImageProject)
+        when (mcImageConfig.optimizeType) {
+            Config.OPTIMIZE_WEBP_CONVERT ->
+                WebpUtils.securityFormatWebp(file, mcImageConfig, mcImageProject)
+            Config.OPTIMIZE_COMPRESS_PICTURE ->
+                CompressUtil.compressImg(file)
         }
+        countNewSize(path)
+    }
+
+    private fun countNewSize(path: String) {
+        if(File(path).exists()) {
+            newSize += File(path).length()
+        } else {
+            //转成了webp
+            val indexOfDot = path.lastIndexOf(".")
+            val webpPath = path.substring(0, indexOfDot) + ".webp"
+            if(File(webpPath).exists()) {
+                newSize += File(webpPath).length()
+            } else {
+                LogUtil.log("McImage: optimizeImage have some Exception!!!")
+            }
+        }
+    }
+
+    private fun checkBigImage() {
+        if (bigImgList.size != 0) {
+            val stringBuffer = StringBuffer("You have big Imgages with big size or large pixels," +
+                    "please confirm whether they are necessary or whether they can to be compressed. " +
+                    "If so, you can config them into bigImageWhiteList to fix this Exception!!!\n")
+            for (i: Int in 0 until bigImgList.size) {
+                stringBuffer.append(bigImgList[i])
+                stringBuffer.append("\n")
+            }
+            throw GradleException(stringBuffer.toString())
+        }
+    }
+
+
+    private fun checkMcTools(project: Project) {
+        if (mcImageConfig.mctoolsDir.isBlank()) {
+            FileUtil.setRootDir(project.rootDir.path)
+        } else {
+            FileUtil.setRootDir(mcImageConfig.mctoolsDir)
+        }
+
+        if (!FileUtil.getToolsDir().exists()) {
+            throw GradleException("You need put the mctools dir in project root")
+        }
+    }
+
+    private fun sizeInfo(): String {
+        return "->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n" +
+                "before McImage optimize: " + oldSize / 1024 + "KB\n" +
+                "after McImage optimize: " + newSize / 1024 + "KB\n" +
+                "McImage optimize size: " + (oldSize - newSize) / 1024 + "KB\n" +
+                "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<-"
+
+
     }
 }

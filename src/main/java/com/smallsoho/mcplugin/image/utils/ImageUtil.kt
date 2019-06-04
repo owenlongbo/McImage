@@ -38,7 +38,7 @@ class ImageUtil {
             }
         }
 
-        fun isBigImage(imgFile: File, maxSize: Float): Boolean {
+        fun isBigSizeImage(imgFile: File, maxSize: Float): Boolean {
             if (isImage(imgFile)) {
                 if (imgFile.length() >= maxSize) {
                     LogUtil.log(SIZE_TAG, imgFile.path, true.toString())
@@ -48,7 +48,7 @@ class ImageUtil {
             return false
         }
 
-        fun isBigSizeImage(imgFile: File, maxWidth: Int, maxHeight: Int): Boolean {
+        fun isBigPixelImage(imgFile: File, maxWidth: Int, maxHeight: Int): Boolean {
             if (isImage(imgFile)) {
                 val sourceImg = ImageIO.read(FileInputStream(imgFile))
                 if (sourceImg.height > maxHeight || sourceImg.width > maxWidth) {

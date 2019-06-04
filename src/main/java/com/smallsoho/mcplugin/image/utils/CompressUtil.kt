@@ -7,16 +7,37 @@ class CompressUtil {
     companion object {
         private const val TAG = "Compress"
         fun compressImg(imgFile: File) {
-            if (ImageUtil.isImage(imgFile)) {
-                val oldSize = imgFile.length()
-                if (ImageUtil.isJPG(imgFile)) {
-                    Tools.cmd("guetzli", "${imgFile.path} ${imgFile.path}")
-                } else {
-                    Tools.cmd("pngquant", "--skip-if-larger --speed 3 --force --output ${imgFile.path} -- ${imgFile.path}")
-                }
-                val newSize = imgFile.length()
-                LogUtil.log(TAG, imgFile.path, oldSize.toString(), newSize.toString())
+            if (!ImageUtil.isImage(imgFile)) {
+                return
             }
+
+            val oldSize = imgFile.length()
+            var newSize = 0L
+            if (ImageUtil.isJPG(imgFile)) {
+                var tempFilePath: String = "${imgFile.path.substring(0, imgFile.path.lastIndexOf("."))}_temp" +
+                        "${imgFile.path.substring(imgFile.path.lastIndexOf("."))}"
+                Tools.cmd("guetzli", "${imgFile.path} ${tempFilePath}")
+                val tempFile: File = File(tempFilePath)
+                newSize = tempFile.length()
+                println("newSize = ${newSize}")
+                if (newSize < oldSize) {
+                    var imgFileName: String = imgFile.path
+                    if (imgFile.exists()) {
+                        imgFile.delete()
+                    }
+                    tempFile.renameTo(File(imgFileName))
+                } else {
+                    if (tempFile.exists()) {
+                        tempFile.delete()
+                    }
+                }
+
+            } else {
+                Tools.cmd("pngquant", "--skip-if-larger --speed 1 --nofs --strip --force --output ${imgFile.path} -- ${imgFile.path}")
+                newSize = File(imgFile.path).length()
+            }
+
+            LogUtil.log(TAG, imgFile.path, oldSize.toString(), newSize.toString())
         }
     }
 
