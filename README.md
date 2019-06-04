@@ -34,7 +34,7 @@ The version 1.0.1 now support all build.gradle version!
 ### Update Log
 
 > The user use v0.0.2 update plugin need update your mctools dir together.
-- 1.4.0 : Featrue, Support for selecting different optimization types，"ConvertWebp" or "Compress" can be chosen.Default "WebpConvert" be Choosen because it has a better compression ratio.
+- 1.4.0 : Featrue, Support for selecting different optimization types，"ConvertWebp" or "Compress" can be chosen.Default "Compress". "CompressWebp" is a better compression ratio but it don't support api < 18
 - 1.3.0 : Featrue, Support multi-thread processing
 - 1.2.0 : Feature, get compress command from system environment prior to local file
 - 1.0.1 : Bug fix, fix maxSize float error

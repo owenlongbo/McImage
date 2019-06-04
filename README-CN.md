@@ -32,7 +32,7 @@ McImage是无侵入式的全量压缩资源图片插件
 ### Update Log
 
 > v0.0.2以后的用户更新到0.0.2以上需要升级你的mctools文件夹，已经上传到release。
-- 1.4.0 : 区分优化类型，可选择ConvertWep或Compress, 默认ConvertWebp，压缩比更高
+- 1.4.0 : 区分优化类型，可选择ConvertWep或Compress, 默认选择Compress. 使用ConvertWep需要min sdk >= 18.但是压缩效果更好
 - 1.3.0 : 支持多线程压缩，缩短执行时间
 - 1.2.0 : 优先从系统获取压缩命令, 不存在使用本地文件命令
 - 1.0.1 : 修复了maxSize无法使用浮点数的问题
