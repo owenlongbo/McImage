@@ -85,7 +85,7 @@ You can set the config in build.gradle.If you not set this,all config will use d
 ```groovy
 McImageConfig {
     isCheckSize true //Whether to detect image size，default true
-    optimizeType "ConertWebp" //Optimize Type，"ConvertWebp" or "Compress"，default "ConvertWebp"
+    optimizeType "ConertWebp" //Optimize Type，"ConvertWebp" or "Compress"，default "Compress", "CompressWebp" is a better compression ratio but it don't support api < 18
     maxSize 1*1024*1024 //big image size threshold，default 1MB
     enableWhenDebug false //swithc in debug build，default true
     isCheckPixels true // Whether to detect image pixels of width and height，default true

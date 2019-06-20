@@ -84,7 +84,7 @@ mctools
 ```groovy
 McImageConfig {
   isCheckSize true //是否检测图片大小，默认为true
-  optimizeType "ConertWebp" //优化类型，可选"ConvertWebp"，"Compress"，转换为webp或原图压缩，默认ConvertWebp，压缩比更高
+  optimizeType "ConertWebp" //优化类型，可选"ConvertWebp"，"Compress"，转换为webp或原图压缩，默认Compress，使用ConvertWep需要min sdk >= 18.但是压缩效果更好
   maxSize 1*1024*1024 //大图片阈值，default 1MB
   enableWhenDebug false //debug下是否可用，default true
   isCheckPixels true // 是否检测大像素图片，default true
