@@ -22,7 +22,7 @@ allprojects {
 }
 
 dependencies {
-    compile gradleApi()
-    compile localGroovy()
-    compile 'com.android.tools.build:gradle:3.5.0'
+    implementation gradleApi()
+    implementation localGroovy()
+    implementation 'com.android.tools.build:gradle:3.5.0'
 }
