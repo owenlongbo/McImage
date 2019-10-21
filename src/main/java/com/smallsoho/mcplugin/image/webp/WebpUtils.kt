@@ -10,7 +10,6 @@ class WebpUtils {
 
     companion object {
         private const val VERSION_SUPPORT_WEBP = 14 //api>=14设设备支持webp
-        private const val VERSION_SUPPORT_TRANSPARENT_WEBP = 18 //api>=18支持透明通道
         private const val TAG = "Webp"
 
         private fun isPNGConvertSupported(project: Project): Boolean {

@@ -1,12 +1,9 @@
 package com.smallsoho.mcplugin.image.utils
 
 import com.smallsoho.mcplugin.image.Const
-import com.sun.org.apache.xpath.internal.operations.Bool
-
-import javax.imageio.ImageIO
-import java.awt.image.BufferedImage
 import java.io.File
 import java.io.FileInputStream
+import javax.imageio.ImageIO
 
 class ImageUtil {
 
