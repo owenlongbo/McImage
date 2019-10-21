@@ -71,7 +71,7 @@ class Tools {
             return try {
                 bufferReader.readLine()
             } catch (e: Exception) {
-                println(e)
+                LogUtil.log(e)
                 null
             }
         }

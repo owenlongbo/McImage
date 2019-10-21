@@ -32,6 +32,7 @@ McImage是无侵入式的全量压缩资源图片插件
 ### Update Log
 
 > v0.0.2以后的用户更新到0.0.2以上需要升级你的mctools文件夹，已经上传到release。
+- 1.5.0 : 更新gradle plugin 到 3.5.0 ，更新获取android资源方式，修复了不支持缩写（assembleDebug 缩写 aD）的问题
 - 1.4.0 : 区分优化类型，可选择ConvertWep或Compress, 默认选择Compress. 使用ConvertWep需要min sdk >= 18.但是压缩效果更好
 - 1.3.0 : 支持多线程压缩，缩短执行时间
 - 1.2.0 : 优先从系统获取压缩命令, 不存在使用本地文件命令
@@ -84,20 +85,19 @@ mctools
 ```groovy
 McImageConfig {
   isCheckSize true //是否检测图片大小，默认为true
-  optimizeType "ConertWebp" //优化类型，可选"ConvertWebp"，"Compress"，转换为webp或原图压缩，默认Compress，使用ConvertWep需要min sdk >= 18.但是压缩效果更好
+  optimizeType "Compress" //优化类型，可选"ConvertWebp"，"Compress"，转换为webp或原图压缩，默认Compress，使用ConvertWep需要min sdk >= 18.但是压缩效果更好
   maxSize 1*1024*1024 //大图片阈值，default 1MB
   enableWhenDebug false //debug下是否可用，default true
   isCheckPixels true // 是否检测大像素图片，default true
-  maxWidth 1000 //defualt 1000 如果开启图片宽高检查，默认的最大宽度
-  maxHeight 1000 //defualt 1000 如果开启图片宽高检查，默认的最大高度
+  maxWidth 1000 //default 1000 如果开启图片宽高检查，默认的最大宽度
+  maxHeight 1000 //default 1000 如果开启图片宽高检查，默认的最大高度
   whiteList = [ //默认为空，如果添加，对图片不进行任何处理
              "icon_launcher.png"
   ]
-  mctoolsDir "$rootDir/tools"
+  mctoolsDir "$rootDir"
   isSupportAlphaWebp false  //是否支持带有透明度的webp，default false,带有透明图的图片会进行压缩
   multiThread true  //是否开启多线程处理图片，default true 
-  bigImageWhiteList = [ //默认为空，如果添加，大图检测将跳过这些图片
-  ]
+  bigImageWhiteList = [] //默认为空，如果添加，大图检测将跳过这些图片
 }
 ```
 
