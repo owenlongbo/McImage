@@ -34,6 +34,7 @@ The version 1.0.1 now support all build.gradle version!
 ### Update Log
 
 > The user use v0.0.2 update plugin need update your mctools dir together.
+- 1.5.1 : Fix windows support
 - 1.5.0 : Update gradle plugin to 3.5.0 , change the get android resources way，fix not support abbreviation（such as assembleDebug use aD) bug.
 - 1.4.0 : Feature, Support for selecting different optimization types，"ConvertWebp" or "Compress" can be chosen.Default "Compress". "CompressWebp" is a better compression ratio but it don't support api < 18
 - 1.3.0 : Feature, Support multi-thread processing
@@ -61,7 +62,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.smallsoho.mobcase:McImage:1.5.0'
+        classpath 'com.smallsoho.mobcase:McImage:1.5.1'
     }
 }
 ```

@@ -32,6 +32,7 @@ McImage是无侵入式的全量压缩资源图片插件
 ### Update Log
 
 > v0.0.2以后的用户更新到0.0.2以上需要升级你的mctools文件夹，已经上传到release。
+- 1.5.1 : 修改对win的支持
 - 1.5.0 : 更新gradle plugin 到 3.5.0 ，更新获取android资源方式，修复了不支持缩写（assembleDebug 缩写 aD）的问题
 - 1.4.0 : 区分优化类型，可选择ConvertWep或Compress, 默认选择Compress. 使用ConvertWep需要min sdk >= 18.但是压缩效果更好
 - 1.3.0 : 支持多线程压缩，缩短执行时间
@@ -61,7 +62,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.smallsoho.mobcase:McImage:1.5.0'
+        classpath 'com.smallsoho.mobcase:McImage:1.5.1'
     }
 }
 ```
