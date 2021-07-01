@@ -1,6 +1,7 @@
 # McImage
-
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/mcimage/McImage)
+
+> I will continue to update, please rest assured to use
 
 [中文文档](README-CN.md)
 

@@ -2,6 +2,8 @@
 
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/mcimage/McImage)
 
+> 我会持续更新，请大家放心使用，Bug也会及时跟进
+
 [Android优雅的打包时自动化获取全部res资源)](https://smallsoho.com/android/2018/07/26/Android-Android%E4%BC%98%E9%9B%85%E7%9A%84%E6%89%93%E5%8C%85%E6%97%B6%E8%87%AA%E5%8A%A8%E5%8C%96%E8%8E%B7%E5%8F%96%E5%85%A8%E9%83%A8res%E8%B5%84%E6%BA%90/)
 
 McImage是无侵入式的全量压缩资源图片插件
