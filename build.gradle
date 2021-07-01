@@ -1,5 +1,4 @@
 apply plugin: 'kotlin'
-apply from: 'bintray.gradle'
 apply from: 'publish.gradle'
 
 buildscript {
@@ -10,7 +9,7 @@ buildscript {
 
     dependencies {
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.71"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.20"
     }
 }
 
