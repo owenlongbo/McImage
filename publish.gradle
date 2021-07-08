@@ -2,7 +2,7 @@ apply plugin: 'maven'
 apply plugin: 'signing'
 
 def DEBUG = false
-def VERSION = '1.5.0-SNAPSHOT'
+def VERSION = '1.5.1'
 def GROUP = 'com.smallsoho.mobcase'
 def ARTIFACT = 'McImage'
 
@@ -44,6 +44,32 @@ uploadArchives {
                 groupId = GROUP
                 artifactId = ARTIFACT
                 version = VERSION
+                project {
+                    name = "McImage"
+                    packaging = "aar"
+                    description = "McImage is a Non-invasive plugin for compress all res in your project."
+                    url = "https://github.com/smallSohoSolo/McImage"
+
+                    scm {
+                        connection "https://github.com/smallSohoSolo/McImage"
+                        developerConnection "https://github.com/smallSohoSolo/McImage"
+                        url "https://github.com/smallSohoSolo/McImage"
+                    }
+
+                    licenses {
+                        license {
+                            name "Apache-2.0 License"
+                            url "https://github.com/smallSohoSolo/McImage/blob/master/LICENSE"
+                            distribution "A permissive license whose main conditions require preservation of copyright and license notices. Contributors provide an express grant of patent rights. Licensed works, modifications, and larger works may be distributed under different terms and without source code."
+                        }
+                    }
+                    developers {
+                        developer {
+                            id "smallSohoSolo"
+                            name "smallSohosolo"
+                        }
+                    }
+                }
             }
         }
     }

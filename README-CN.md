@@ -23,6 +23,7 @@ McImage是无侵入式的全量压缩资源图片插件
 ### Release Success!
 
 1.0.1版本现在支持全版本的build.gradle脚本！
+最近版本已经支持mavenCentral()
 
 ### Feature
 
@@ -61,7 +62,7 @@ PS:目前我司项目正在使用此仓库进行压缩
 ```groovy
 buildscript {
     repositories {
-        jcenter()
+        mavenCentral()
     }
     dependencies {
         classpath 'com.smallsoho.mobcase:McImage:1.5.1'

@@ -24,6 +24,7 @@ Used algorithm
 ### Release Success!
 
 The version 1.0.1 now support all build.gradle version!
+Already support mavenCentral.
 
 ### Feature
 
@@ -60,7 +61,7 @@ The first, add the plugin in your project root build.gradle.
 ```groovy
 buildscript {
     repositories {
-        jcenter()
+        mavenCentral()
     }
     dependencies {
         classpath 'com.smallsoho.mobcase:McImage:1.5.1'
