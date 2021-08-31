@@ -36,7 +36,8 @@ Already support mavenCentral.
 ### Update Log
 
 > The user use v0.0.2 update plugin need update your mctools dir together.
-- 1.5.1 : Fix windows support
+-  : Fix windows support
+- 1.5.2 : Optimize the algorithm, when using webp compression if there is a transparent channel use lossless compression, smaller size and better quality
 - 1.5.0 : Update gradle plugin to 3.5.0 , change the get android resources way，fix not support abbreviation（such as assembleDebug use aD) bug.
 - 1.4.0 : Feature, Support for selecting different optimization types，"ConvertWebp" or "Compress" can be chosen.Default "Compress". "CompressWebp" is a better compression ratio but it don't support api < 18
 - 1.3.0 : Feature, Support multi-thread processing
@@ -64,7 +65,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.smallsoho.mobcase:McImage:1.5.1'
+        classpath 'com.smallsoho.mobcase:McImage:1.5.2'
     }
 }
 ```
