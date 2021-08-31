@@ -19,7 +19,12 @@ class WebpUtils {
         private fun formatWebp(imgFile: File) {
             if (ImageUtil.isImage(imgFile)) {
                 val webpFile = File("${imgFile.path.substring(0, imgFile.path.lastIndexOf("."))}.webp")
-                Tools.cmd("cwebp", "${imgFile.path} -o ${webpFile.path} -m 6 -quiet")
+                if (ImageUtil.isAlphaPNG(imgFile)) {
+                    Tools.cmd("cwebp", "${imgFile.path} -o ${webpFile.path} -lossless")
+                    LogUtil.log("[${TAG}][${imgFile.name}] lossless file name -> ${webpFile.name}")
+                } else {
+                    Tools.cmd("cwebp", "${imgFile.path} -o ${webpFile.path} -m 6 -quiet")
+                }
                 if (webpFile.length() < imgFile.length()) {
                     LogUtil.log(TAG, imgFile.path, imgFile.length().toString(), webpFile.length().toString())
                     if (imgFile.exists()) {
